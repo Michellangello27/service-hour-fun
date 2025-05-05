@@ -1,14 +1,15 @@
-import React from 'react'
-import DashboardComponent from './components/DashboardComponent'
-
-import Aside from './components/Aside'
+import React from "react";
+import Aside from "./components/Aside";
+import Login from "./components/Login";
+import { Route, Routes } from "react-router";
 
 export default function App() {
   return (
     <div>
-
-      <Aside/>
-
+      <Routes>
+        <Route path="/" element={<Aside />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </div>
-  )
+  );
 }
