@@ -1,10 +1,11 @@
 import React from 'react'
-import Login from './components/Login'
+
+import Aside from './components/Aside'
 
 export default function App() {
   return (
     <div>
-      <Login></Login>
+      <Aside/>
     </div>
   )
 }
