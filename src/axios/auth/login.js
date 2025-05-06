@@ -1,34 +1,31 @@
 import { instance } from "../instance";
 
 export async function login(request) {
-
-    try {
-        const { data } = await instance.post('/auth/login', request)
-        return data
-    } catch (error) {
-        throw error
-    }
-
+  try {
+    const { data } = await instance.post("/auth/login", request);
+    return data;
+  } catch (error) {
+    throw error;
+  }
 }
 
 // esto debe estar en el archivo user
 export async function profile() {
-
-    try {
-        const { data } = await instance.get(`/auth/profile`)
-        return data
-    } catch (error) {
-        throw error
-    }
+  try {
+    const { data } = await instance.get(`/auth/profile`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function services() {
-    try {
-        const { data } = await instance.get(`/services`)
-        return data
-    } catch (error) {
-        throw error
-    }
+  try {
+    const { data } = await instance.get(`/services`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function users() {
@@ -81,6 +78,15 @@ export async function registroHoras() {
   try {
     const { status } = await instance.post("/services");
     return status;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getDocument(id) {
+  try {
+    const { data } = await instance.get(`/services/${id}`);
+    return data;
   } catch (error) {
     throw error;
   }
