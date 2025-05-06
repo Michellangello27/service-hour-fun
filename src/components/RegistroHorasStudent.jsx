@@ -5,9 +5,9 @@ import { services } from "../axios/auth/login";
 
 export default function RegistroHorasStudent() {
   const [showModal, setShowModal] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   console.log(data);
-  const as = data || "";
+
   useEffect(() => {
     services()
       .then((rs) => setData(rs))
@@ -49,8 +49,8 @@ export default function RegistroHorasStudent() {
         className="flex flex-wrap justify-center gap-5 w-90/100"
         id="Pending"
       >
-        {as !== "" &&
-          as.map((item, index) => {
+        {
+          data.map((item, index) => {
             return <CardHoras item={item} key={index} />;
           })}
       </div>
