@@ -1,6 +1,7 @@
 import { login } from "../axios/auth/login";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+/* import Cookies from "js-cookie"; // Import js-cookie */
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,15 +14,28 @@ export default function Login() {
 
     try {
       const data = await login(requestData);
-      console.log(data.status);
+
       if (data.status === "success") {
-        navigate("/");
+        navigate("/")
+        /* const token = Cookies.get("token");
+        console.log(token)
+        if (token) {
+          navigate("/"); // Redirect to the home page
+        } else {
+          setErrorMessage(
+            "Ocurrió un error inesperado. Por favor, inténtalo más tarde."
+          );
+        } */
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        setErrorMessage("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
+        setErrorMessage(
+          "Credenciales incorrectas. Por favor, inténtalo de nuevo."
+        );
       } else {
-        setErrorMessage("Ocurrió un error inesperado. Por favor, inténtalo más tarde.");
+        setErrorMessage(
+          "Ocurrió un error inesperado. Por favor, inténtalo más tarde."
+        );
       }
     }
   }

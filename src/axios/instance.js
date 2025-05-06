@@ -15,6 +15,10 @@ const error = (error) => {
     if(error.status === 403){
         window.location.href = '/login'
     }
+
+    /* if(error.status === 401){
+        window.location.href = '/forbiden'
+    } */
     return Promise.reject(error);
 }
 instance.interceptors.response.use(success, error);
