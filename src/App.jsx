@@ -1,6 +1,7 @@
 import React from "react";
 import Login from "./components/Login";
 import { Route, Routes } from "react-router";
+import HorasServicio from "./components/HorasServicio";
 import AuthLayout from "./components/layouts/AuthLayout";
 import DashboardComponent from "./components/DashboardComponent";
 
@@ -42,6 +43,7 @@ export default function App() {
           />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/horas-servicio" element={<HorasServicio />} />
       </Routes>
     </div>
   );
