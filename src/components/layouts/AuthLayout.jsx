@@ -21,7 +21,7 @@ export default function AuthLayout() {
           navigate("/login"); // Redirect to login
         } */
       });
-  }, [navigate]);
+  }, []);
 
   async function handleLogout() {
     try {
