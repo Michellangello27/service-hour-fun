@@ -3,7 +3,6 @@ import { instance } from "../instance";
 export async function login(request) {
     try {
         const { data } = await instance.post('/auth/login', request)
-        console.log(data)
         return data
     } catch (error) {
         throw error
@@ -14,7 +13,15 @@ export async function login(request) {
 export async function profile() {
     try {
         const { data } = await instance.get(`/auth/profile`)
-        console.log(data)
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function services() {
+    try {
+        const { data } = await instance.get(`/services`)
         return data
     } catch (error) {
         throw error
