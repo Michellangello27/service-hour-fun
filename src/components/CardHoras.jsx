@@ -22,7 +22,7 @@ export default function CardHoras({ item }) {
     <div className="relative border border-blue-300 rounded-xl bg-blue-50 w-70  h-fit p-1">
       <div className="rounded-xl overflow-hidden h-35">
         <img
-          src="/categorias/1.png"
+          src={`/categorias/${category.id}.png`}
           alt=""
           className="object-cover h-full w-full"
         />
