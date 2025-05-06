@@ -9,17 +9,12 @@ export const ProfileContext = createContext()
 
 export default function AuthLayout() {
 
-
-
-
-
     const [data, setData] = useState({})
     useEffect(() => {
         profile()
             .then((rs) => setData(rs))
             .catch((error) => console.log(error))
     }, [])
-
 
     const navigate = useNavigate() 
     async function handleLogout() {
