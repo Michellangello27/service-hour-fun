@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function DashboardComponent() {
     return (
-        <div className=' h-screen w-full flex flex-col items-center py-10 gap-2'>
+        <div className=' h-screen w-full flex flex-col items-center py-10 gap-2 bg-gray-600'>
             <div className='border w-[80%] h-80 rounded-3xl flex flex-wrap justify-center items-center gap-10 py-5 px-10 '>
                 <div>
                     <figure className=' border rounded-full w-30 h-30'><img src="./github-icon-2.svg" alt="" /></figure>
