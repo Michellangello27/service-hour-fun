@@ -3,6 +3,7 @@ import { instance } from "../instance";
 export async function login(request) {
     try {
         const { data } = await instance.post('/auth/login', request)
+        console.log(data)
         return data
     } catch (error) {
         throw error
@@ -12,7 +13,8 @@ export async function login(request) {
 // esto debe estar en el archivo user
 export async function profile() {
     try {
-        const { data } = await instance.get('/users/profile')
+        const { data } = await instance.get(`/users`)
+        // console.log(data)
         return data
     } catch (error) {
         throw error

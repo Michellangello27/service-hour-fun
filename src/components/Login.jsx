@@ -1,8 +1,14 @@
 import { login } from "../axios/auth/login";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { createContext, useState } from "react";
+
+
+
 
 export default function Login() {
+
+
+
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -10,11 +16,12 @@ export default function Login() {
     e.preventDefault();
     const formdata = new FormData(e.target);
     const requestData = Object.fromEntries(formdata.entries());
-
+console.log(formdata.entries())
     try {
       const data = await login(requestData);
-      console.log(data.status);
+
       if (data.status === "success") {
+
         navigate("/");
       }
     } catch (error) {
@@ -27,6 +34,7 @@ export default function Login() {
   }
 
   return (
+    
     <div className="flex flex-col md:flex-row h-screen">
       {/* Imagen */}
       <div className="flex-1 md:flex-1 flex items-center justify-center bg-gray-100 h-1/3 md:h-auto">
@@ -87,5 +95,6 @@ export default function Login() {
         </form>
       </div>
     </div>
+   
   );
 }
