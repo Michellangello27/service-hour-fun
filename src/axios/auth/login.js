@@ -13,8 +13,8 @@ export async function login(request) {
 // esto debe estar en el archivo user
 export async function profile() {
     try {
-        const { data } = await instance.get(`/users`)
-        // console.log(data)
+        const { data } = await instance.get(`/auth/profile`)
+        console.log(data)
         return data
     } catch (error) {
         throw error
