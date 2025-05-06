@@ -7,7 +7,6 @@ import DashboardComponent from "./components/DashboardComponent";
 
 import RegistroHorasStudent from "./components/RegistroHorasStudent";
 
-
 import Cookies from "js-cookie"; // Import js-cookie
 import { Navigate } from "react-router";
 
@@ -22,17 +21,13 @@ import { Navigate } from "react-router";
     </ProtectedRoute>
   } */
 
-
 export default function App() {
   return (
     <div>
       <Routes>
         <Route element={<AuthLayout />}>
-
-          <Route path="/" element={<RegistroHorasStudent />} />
-
           <Route path="/" element={<DashboardComponent />} />
-
+          <Route path="/horas-servicio" element={<RegistroHorasStudent />} />
 
           <Route path="/profile" element={<h1>Profile</h1>} />
           <Route path="/users" element={<h1>Users</h1>} />

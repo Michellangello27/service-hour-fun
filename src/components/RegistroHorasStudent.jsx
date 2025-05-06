@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RegistroHorasForm from "./RegistroHorasForm";
+import CardHoras from "./CardHoras";
+import { services } from "../axios/auth/login";
 
 export default function RegistroHorasStudent() {
   const [showModal, setShowModal] = useState(false);
-
+  const [data, setData] = useState({});
+  console.log(data);
+  const as = data || "";
+  useEffect(() => {
+    services()
+      .then((rs) => setData(rs))
+      .catch((error) => {
+        console.log(error);
+        /* if (error.response && error.response.status === 401) {
+          Cookies.remove("token"); // Clear the 'token' cookie
+          navigate("/login"); // Redirect to login
+        } */
+      });
+  }, []);
   return (
     <div className="flex flex-col items-center">
       {/* botones */}
@@ -34,41 +49,10 @@ export default function RegistroHorasStudent() {
         className="flex flex-wrap justify-center gap-5 w-90/100"
         id="Pending"
       >
-        <div className="relative border border-blue-300 rounded-xl bg-blue-50 w-70 min-h-110 p-1">
-          <div className="rounded-xl overflow-hidden h-35">
-            <img
-              src="/categorias/1.png"
-              alt=""
-              className="object-cover h-full w-full"
-            />
-          </div>
-          <p>
-            <strong>Horas de servicio reportadas:</strong>
-          </p>
-          <p>{"amount_reported"} horas</p>
-          <p>
-            <strong>Descripción de la actividad:</strong>
-          </p>
-          <p>{"description"}</p>
-          <p>
-            <strong>Tipo de actividad:</strong>
-          </p>
-          <p>{"category_id"}</p>
-          <p>
-            <strong>Documento:</strong>
-          </p>
-          <p>AQUI PDF</p>
-          <p>
-            <strong>Estado:</strong>
-          </p>
-          <p>{"status"}</p>
-          <div className="flex justify-center absolute w-full bottom-2 left-0">
-            {/* Boton Editar */}
-            <button className="w-90/100 my-2 cursor-pointer border border-blue-700 rounded-md bg-violet-200 p-1">
-              Editar
-            </button>
-          </div>
-        </div>
+        {as !== "" &&
+          as.map((item, index) => {
+            return <CardHoras item={item} key={index} />;
+          })}
       </div>
       {/* modal formulario */}
       {showModal && <RegistroHorasForm setShowModal={setShowModal} />}
