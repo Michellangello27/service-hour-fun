@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { changePassword, profile, updateprofile } from '../axios/auth/login';
+import { changePassword, profile } from '../axios/auth/login';
 
 
 
@@ -62,11 +62,11 @@ export default function HorasServicio() {
   return (
     <>
       {/* <div className='flex flex-col justify-center items-center bg-white w-full h-screen'> */}
-        <div className='flex flex-col md:flex-col md:mx-auto bg-white rounded-md justify-center gap-8 mb-8'>
+        <div className='flex flex-col md:flex-col md:mx-auto bg-white rounded-md justify-center gap-8 mb-8 md:ml-2 md:mr-2'>
           <div className='flex justify-center'>
-            <img className="rounded-md mt-12 justify-center" src="./estudiante.png" alt="Estudiante" width={200} />
+            <img className="rounded-md mt-12 justify-center" src="./estudiante.png" alt="Estudiante" width={250} />
           </div>
-          <div className='flex flex-col items-start ml-2'>
+          <div className='flex flex-col items-start ml-4 mr-4'>
             <label htmlFor="carrera">Carrera al que pertenece</label>
             <input
               id="carrera"
@@ -98,7 +98,7 @@ export default function HorasServicio() {
               readOnly
             />
           </div>
-          <div className='flex flex-col md:flex-col items-start ml-2'>
+          <div className='flex flex-col md:flex-col items-start ml-4 mr-4'>
             <label htmlFor="">Contraseña Actual</label>
             <input
               id="currentPassword"
