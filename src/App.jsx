@@ -13,6 +13,7 @@ import Cookies from "js-cookie"; // Import js-cookie
 import { Navigate } from "react-router";
 import Users from "./components/Users";
 import User from "./components/User";
+import ProfileStudents from "./components/ProfileStudents";
 
 // Protected Route Component
 /* function ProtectedRoute({ children }) {
@@ -33,17 +34,19 @@ export default function App() {
           <Route path="/" element={<DashboardComponent />} />
           <Route path="/horas-servicio" element={<RegistroHorasStudent />} />
 
-          <Route path="/profile" element={<h1>Profile</h1>} />
+          {/* <Route path="/profile" element={<h1>Profile</h1>} /> */}
           <Route path="/users" element={<Users/>} />
           <Route path="/users/:id" element={<User/>} />
           <Route path="/create-user" element={<h1>Create User</h1>} />
+          {/* <Route path="/profile" element={<HorasServicio />} /> */}
+          <Route path="/profile" element={<ProfileStudents />} />
           <Route
             path="/forbiden"
             element={<h1>No tiene Permisos para acceder a este contenido</h1>}
           />
         </Route>
         <Route path="/login" element={<Login />} />
-        <Route path="/horas-servicio" element={<HorasServicio />} />
+        
       </Routes>
     </div>
   );
