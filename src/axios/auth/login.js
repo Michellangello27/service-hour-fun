@@ -30,10 +30,28 @@ export async function services() {
 
 export async function users() {
   try {
-    const { data } = await instance.get("/users");
+    const { data } = await instance.get(`/users?r=2`);
     return data;
   } catch (error) {
     throw error;
+  }
+}
+
+export async function findUser(id) {
+  try {
+      const { data } = await instance.get(`/users/${id}`)
+      return data
+  } catch (error) {
+      throw error
+  }
+}
+
+export async function create(request) {
+  try {
+      const { status } = await instance.post(`/users`, request)
+      return status
+  } catch (error) {
+      throw error
   }
 }
 
