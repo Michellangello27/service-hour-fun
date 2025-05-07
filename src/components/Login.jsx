@@ -14,7 +14,6 @@ export default function Login() {
 
     try {
       const data = await login(requestData);
-
       if (data.status === "success") {
         navigate("/")
         /* const token = Cookies.get("token");

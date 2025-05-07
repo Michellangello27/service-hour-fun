@@ -24,6 +24,19 @@ export async function profile() {
 
 }
 
+// para actualizar el perfil
+export async function updateprofile(data) {
+
+  try {
+      const response = await instance.put(`/auth/profile`, data)
+      return response.data;  
+  } catch (error) {
+    console.log('Error en la solicitud:', error.response || error.message);
+      throw error
+  }
+
+}
+
 export async function services() {
   try {
     const { data } = await instance.get(`/services`);
@@ -35,7 +48,7 @@ export async function services() {
 
 export async function users() {
   try {
-    const { data } = await instance.get(`/users?r=4`);
+    const { data } = await instance.get(`/users`);
     return data;
   } catch (error) {
     throw error;

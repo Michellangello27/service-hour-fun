@@ -1,49 +1,42 @@
 
 import React, { useState, useEffect } from 'react';
-import { profile, services } from '../axios/auth/login';
+import { findUser } from '../axios/auth/login';
+import { set } from 'react-hook-form';
+import { servicesIdUser } from '../axios/users/users';
 
 
-export default function HorasServicio() {
-  const [userData, setUserData] = useState({
-    carrera: '',
-    grupo: '',
-    nombre: '',
-    correo: '',
-  });
+export default function HorasServicio({ reviewUser, setToggleRequired }) {
+  const [userData, setUserData] = useState([]);
 
-
+  console.log(reviewUser)
   const [serviceData, setServiceData] = useState([]); // Estado para almacenar los servicios
 
   // Función para obtener los datos del perfil
-  useEffect(() => {
-    profile()
-      .then((rs) => {
-        const user = rs;
-        setUserData({
-          carrera: user.schools?.[0]?.name || 'Sin carrera',
-          grupo: user.role?.name || 'Sin grupo',
-          nombre: user.full_name || 'Sin nombre',
-          correo: user.email || 'Sin correo',
-        });
-      })
-      .catch((error) => {
-        console.error('Error al obtener los datos del perfil:', error);
-      });
 
-    // Función para obtener los datos de los servicios
-    services()
+  useEffect(() => {
+    findUser(reviewUser)
+      .then((rs) => setUserData(rs))
+      .catch((error) => console.log(error));
+  }, []);
+
+
+
+  useEffect(() => {
+    servicesIdUser(reviewUser)
       .then((data) => {
         setServiceData(data); // Guardar los datos de los servicios en el estado
       })
       .catch((error) => {
         console.error('Error al obtener los datos de los servicios:', error);
       });
-
   }, []);
+
+
+
 
   return (
     <>
-      <div className='flex flex-col justify-center items-center bg-white w-full h-screen'>
+      <div className='flex flex-col justify-center items-center bg-white w-full h-screen relative'>
         <div className='flex flex-row justify-between gap-8 mb-8'>
           <div>
 
@@ -54,35 +47,35 @@ export default function HorasServicio() {
             <input
               id="carrera"
               className='border border-gray-400 px-4 py-2 mb-2 w-full h-10 rounded-md'
-              value={userData.carrera}
+              value={userData?.schools?.[0]?.name || 'Sin carrera'}
               readOnly
             />
             <label htmlFor="grupo">Grupo al que pertenece</label>
             <input
               id="grupo"
               className='border border-gray-400 px-4 py-2 mb-2 w-full h-10 rounded-md'
-              value={userData.grupo}
+              value={userData?.role?.name}
               readOnly
             />
             <label htmlFor="nombre">Nombre del Estudiante</label>
             <input
               id="nombre"
               className='border border-gray-400 px-4 py-2 mb-2 w-full h-10 rounded-md truncate'
-              value={userData.nombre}
+              value={userData?.full_name}
               readOnly
             />
             <label htmlFor="correo">Correo</label>
             <input
               id="correo"
               className='border border-gray-400 px-4 py-2 mb-2 w-full h-10 rounded-md'
-              value={userData.correo}
+              value={userData?.email}
               readOnly
             />
 
           </div>
         </div>
-        <div>
-          <table className='border border-gray-400 w-full h-50 px-4 py-4'>
+        <div className='w-[800px] h-[350px] overflow-y-auto'>
+          <table className='border border-gray-400   px-4 py-4'>
 
             <thead className='bg-gray-200 px-4 py-2 h-10 gap-8'>
 
@@ -116,6 +109,16 @@ export default function HorasServicio() {
               </tr>
             </tfoot>
           </table>
+        </div>
+
+
+        <div className='absolute top-10 right-10'>
+          <figure className='size-6 cursor-pointer' onClick={() => setToggleRequired(false)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+
+          </figure>
         </div>
       </div>
 
