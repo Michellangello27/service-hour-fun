@@ -1,14 +1,9 @@
 import { login } from "../axios/auth/login";
 import { useNavigate } from "react-router";
-import { createContext, useState } from "react";
-
-
-
+import { useState } from "react";
+/* import Cookies from "js-cookie"; // Import js-cookie */
 
 export default function Login() {
-
-
-
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -16,25 +11,36 @@ export default function Login() {
     e.preventDefault();
     const formdata = new FormData(e.target);
     const requestData = Object.fromEntries(formdata.entries());
-console.log(formdata.entries())
+
     try {
       const data = await login(requestData);
 
       if (data.status === "success") {
-
-        navigate("/");
+        navigate("/")
+        /* const token = Cookies.get("token");
+        console.log(token)
+        if (token) {
+          navigate("/"); // Redirect to the home page
+        } else {
+          setErrorMessage(
+            "Ocurrió un error inesperado. Por favor, inténtalo más tarde."
+          );
+        } */
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        setErrorMessage("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
+        setErrorMessage(
+          "Credenciales incorrectas. Por favor, inténtalo de nuevo."
+        );
       } else {
-        setErrorMessage("Ocurrió un error inesperado. Por favor, inténtalo más tarde.");
+        setErrorMessage(
+          "Ocurrió un error inesperado. Por favor, inténtalo más tarde."
+        );
       }
     }
   }
 
   return (
-    
     <div className="flex flex-col md:flex-row h-screen">
       {/* Imagen */}
       <div className="flex-1 md:flex-1 flex items-center justify-center bg-gray-100 h-1/3 md:h-auto">
@@ -95,6 +101,5 @@ console.log(formdata.entries())
         </form>
       </div>
     </div>
-   
   );
 }

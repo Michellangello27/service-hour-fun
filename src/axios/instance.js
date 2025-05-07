@@ -10,10 +10,14 @@ export const instance = axios.create({
 }); 
 //validar los status code 403 
 const success = (response) => response;
-const error = (error) => { 
+const error = (error) => {
+    console.log(error.response.data.message)
+    if(error.status === 401 && error.response.data.message !=="Invalid credentials"){
+        window.location.href = '/login'
+    }
 
     if(error.status === 403){
-        window.location.href = '/login'
+        window.location.href = '/forbiden'
     }
     return Promise.reject(error);
 }
