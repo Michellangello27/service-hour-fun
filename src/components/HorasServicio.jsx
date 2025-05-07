@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { profile, services } from '../axios/auth/login';
+
 
 export default function HorasServicio() {
   const [userData, setUserData] = useState({
@@ -8,6 +10,7 @@ export default function HorasServicio() {
     nombre: '',
     correo: '',
   });
+
 
   const [serviceData, setServiceData] = useState([]); // Estado para almacenar los servicios
 
@@ -35,6 +38,7 @@ export default function HorasServicio() {
       .catch((error) => {
         console.error('Error al obtener los datos de los servicios:', error);
       });
+
   }, []);
 
   return (
@@ -42,6 +46,7 @@ export default function HorasServicio() {
       <div className='flex flex-col justify-center items-center bg-white w-full h-screen'>
         <div className='flex flex-row justify-between gap-8 mb-8'>
           <div>
+
             <img className="rounded-md mt-8" src="./estudiante.png" alt="Estudiante" width={180} />
           </div>
           <div className='flex flex-col items-start ml-2'>
@@ -73,16 +78,20 @@ export default function HorasServicio() {
               value={userData.correo}
               readOnly
             />
+
           </div>
         </div>
         <div>
           <table className='border border-gray-400 w-full h-50 px-4 py-4'>
+
             <thead className='bg-gray-200 px-4 py-2 h-10 gap-8'>
+
               <tr className='border border-gray-400'>
                 <th>Item</th>
                 <th className='ml-2 md:ml-4'>Nombre de la Actividad</th>
                 <th className='ml-2 md:ml-4'>Tipo de Servicio</th>
                 <th className='ml-2 md:ml-4'>Aprobado por</th>
+
                 <th className='ml-2 md:ml-4'>Horas Reportadas</th>
               </tr>
             </thead>
@@ -103,11 +112,14 @@ export default function HorasServicio() {
                 <td className='text-center'>
                   {serviceData.reduce((total, service) => total + service.amount_reported, 0)}
                 </td>
+
               </tr>
             </tfoot>
           </table>
         </div>
       </div>
+
     </>
   );
 }
+

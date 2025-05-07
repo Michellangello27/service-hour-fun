@@ -64,7 +64,7 @@ export default function RegistroHorasForm({ setShowModal }) {
               type="file"
               {...register("Document")}
               accept="application/pdf"
-              className="border w-full p-1 rounded"
+              className="border w-full p-1 rounded text-xs"
             />
           </div>
           <div className="flex justify-end gap-2">
@@ -77,7 +77,7 @@ export default function RegistroHorasForm({ setShowModal }) {
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-3 py-1 rounded cursor-pointer"
+              className="bg-blue-400 text-white px-3 py-1 rounded cursor-pointer"
             >
               Guardar
             </button>

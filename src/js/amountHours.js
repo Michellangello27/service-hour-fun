@@ -45,3 +45,4 @@ export function aproveHours(array) {
     return counter;
     
 }
+

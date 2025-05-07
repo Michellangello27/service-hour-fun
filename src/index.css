@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+.sidebar {
+  box-sizing: hidden;
+  overflow: hidden;
+  transition: width 0.75s ease;
+}
