@@ -1,34 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { registroHoras } from "../axios/auth/login";
 
 export default function RegistroHorasForm({ setShowModal }) {
-  const { register, handleSubmit } = useForm({
-    defaultValues: async () => await registroHoras(),
-  });
+  const { register, handleSubmit } = useForm();
 
-  const onSubmit = async (profile) => {
+  async function handleCreate(requestData) {
     try {
-      profile.status = 1;
-      const status = await update(profile, profile.id);
-      if (status === 200) {
-        alert("Horas registradas con exito");
+      console.log(requestData);
+      const data = await registroHoras(requestData);
+      console.log(data);
+      if (data.status === "success") {
+        navigate("/horas-servicio");
       }
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 401) {
+        // setErrorMessage(
+        //   "Credenciales incorrectas. Por favor, inténtalo de nuevo."
+        // );
+      } else {
+        // setErrorMessage(
+        //   "Ocurrió un error inesperado. Por favor, inténtalo más tarde."
+        // );
+      }
     }
-  };
+  }
 
   return (
     <div className="fixed inset-0 flex justify-center items-center rounded-lg">
       <div className="bg-indigo-50 p-6 rounded-lg w-80 md:w-96">
         <h2 className="text-lg font-bold mb-4">Registrar Nueva Actividad</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+        <form
+          onSubmit={handleSubmit(handleCreate)}
+          encType="multipart/form-data"
+          className="flex flex-col gap-3"
+        >
           <div>
             <label className="text-sm">Horas reportadas</label>
             <input
               type="number"
-              {...register("Amount_reported")}
+              {...register("amount_reported")}
               name="Amount_reported"
               required
               className="border w-full p-1 rounded"
@@ -38,7 +50,7 @@ export default function RegistroHorasForm({ setShowModal }) {
             <label className="text-sm">Descripción</label>
             <input
               type="text"
-              {...register("Description")}
+              {...register("description")}
               required
               className="border w-full p-1 rounded"
             />
@@ -46,7 +58,7 @@ export default function RegistroHorasForm({ setShowModal }) {
           <div>
             <label className="text-sm">Tipo de actividad</label>
             <select
-              {...register("Category_id")}
+              {...register("category_id")}
               required
               className="border w-full p-1 rounded"
             >
@@ -62,8 +74,9 @@ export default function RegistroHorasForm({ setShowModal }) {
             <label className="text-sm">Documento (PDF)</label>
             <input
               type="file"
-              {...register("Document")}
+              {...register("evidence")}
               accept="application/pdf"
+              required
               className="border w-full p-1 rounded text-xs"
             />
           </div>
@@ -78,6 +91,7 @@ export default function RegistroHorasForm({ setShowModal }) {
             <button
               type="submit"
               className="bg-blue-400 text-white px-3 py-1 rounded cursor-pointer"
+              onClick={() => setShowModal(false)}
             >
               Guardar
             </button>

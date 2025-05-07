@@ -44,19 +44,19 @@ export async function users() {
 
 export async function findUser(id) {
   try {
-      const { data } = await instance.get(`/users/${id}`)
-      return data
+    const { data } = await instance.get(`/users/${id}`);
+    return data;
   } catch (error) {
-      throw error
+    throw error;
   }
 }
 
 export async function create(request) {
   try {
-      const { status } = await instance.post(`/users`, request)
-      return status
+    const { status } = await instance.post(`/users`, request);
+    return status;
   } catch (error) {
-      throw error
+    throw error;
   }
 }
 
@@ -71,7 +71,7 @@ export async function deleteUsers(id) {
 
 export async function update(request, id) {
   try {
-    const { status } = await instance.put(`/users/${id}`, request);
+    const { status } = await instance.put(`/services/${id}`, request);
     return status;
   } catch (error) {
     throw error;
@@ -97,9 +97,13 @@ export async function changePassword(data) {
   }
 }
 
-export async function registroHoras() {
+export async function registroHoras(data) {
   try {
-    const { status } = await instance.post("/services");
+    const { status } = await instance.post("/services", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return status;
   } catch (error) {
     throw error;
