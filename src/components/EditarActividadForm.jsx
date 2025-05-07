@@ -1,31 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { registroHoras } from "../axios/auth/login";
+import { editarActividad } from "../axios/auth/login";
 
-export default function RegistroHorasForm({ setShowModal }) {
-  const { register, handleSubmit } = useForm();
+export default function EditarActividadForm({ setShowModalEdit, item }) {
+  const { register, handleSubmit, reset } = useForm();
+  const itemId = item.id;
+  console.log(itemId);
+  useEffect(() => {
+    if (item) {
+      reset({
+        amount_reported: item.amount_reported,
+        description: item.description,
+        category_id: item.category.id,
+        evidence: item.evidence,
+      });
+    }
+  }, [item, reset]);
 
-  async function handleCreate(requestData) {
+  const handleEdit = async (data) => {
     try {
-      console.log(requestData);
-
-      const data = await registroHoras(requestData);
-      console.log(data);
-      if (data.status === 200) {
-        alert("Actividad registrada con éxito");
-        setShowModal(false);
+      const status = await editarActividad(data, itemId);
+      if (status === 200) {
+        alert("Actividad editada con éxito");
+        setShowModalEdit(false);
       }
     } catch (error) {
-      console.log("Error al registrar actividad:", error);
+      console.log("Error al editar la actividad:", error);
     }
-  }
+  };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center rounded-lg">
+    <div className="fixed inset-0 z-10 flex justify-center items-center rounded-lg">
       <div className="bg-indigo-50 p-6 rounded-lg w-80 md:w-96">
-        <h2 className="text-lg font-bold mb-4">Registrar Nueva Actividad</h2>
+        <h2 className="text-lg font-bold mb-4">Editar Actividad</h2>
         <form
-          onSubmit={handleSubmit(handleCreate)}
+          onSubmit={handleSubmit(handleEdit)}
           encType="multipart/form-data"
           className="flex flex-col gap-3"
         >
@@ -33,7 +42,8 @@ export default function RegistroHorasForm({ setShowModal }) {
             <label className="text-sm">Horas reportadas</label>
             <input
               type="number"
-              {...register("amount_reported", { valueAsNumber: true })}
+              {...register("amount_reported")}
+              name="Amount_reported"
               required
               className="border w-full p-1 rounded"
             />
@@ -76,7 +86,7 @@ export default function RegistroHorasForm({ setShowModal }) {
             <button
               type="button"
               className="bg-gray-300 px-3 py-1 rounded cursor-pointer"
-              onClick={() => setShowModal(false)}
+              onClick={() => setShowModalEdit(false)}
             >
               Cancelar
             </button>

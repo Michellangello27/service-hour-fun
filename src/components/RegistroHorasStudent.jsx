@@ -15,10 +15,6 @@ export default function RegistroHorasStudent() {
       .then((rs) => setData(rs))
       .catch((error) => {
         console.log(error);
-        /* if (error.response && error.response.status === 401) {
-          Cookies.remove("token"); // Clear the 'token' cookie
-          navigate("/login"); // Redirect to login
-        } */
       });
   }, []);
 
