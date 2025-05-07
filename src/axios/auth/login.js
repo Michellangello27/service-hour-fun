@@ -30,7 +30,7 @@ export async function services() {
 
 export async function users() {
   try {
-    const { data } = await instance.get(`/users?r=2`);
+    const { data } = await instance.get(`/users`);
     return data;
   } catch (error) {
     throw error;
