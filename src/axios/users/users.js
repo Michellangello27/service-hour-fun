@@ -26,3 +26,16 @@ export async function services() {
       throw error;
     }
   }
+
+
+
+  
+  export async function servicesIdUser(id) {
+    try {
+      const { data } = await instance.get(`/services/?status=&&user=${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
