@@ -11,12 +11,17 @@ export async function login(request) {
 
 // esto debe estar en el archivo user
 export async function profile() {
-  try {
-    const { data } = await instance.get(`/auth/profile`);
-    return data;
-  } catch (error) {
-    throw error;
-  }
+
+
+    try {
+        const { data } = await instance.get(`/auth/profile`)
+        return data
+        
+    } catch (error) {
+      console.log('Error en la solicitud:', error.response || error.message);
+        throw error
+    }
+
 }
 
 export async function services() {
