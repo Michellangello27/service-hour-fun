@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getDocument } from "../axios/auth/login";
 
 export default function CardHoras({ item }) {
-  const { amount_reported, description, category, status, evidence } = item;
+  const { amount_reported, description, category, status, evidence } = item || {};
   //   const [data, setData] = useState({});
   //   console.log(data);
   //   const as = data || "";
@@ -18,11 +18,19 @@ export default function CardHoras({ item }) {
   //       });
   //   }, []);
 
+  if (!item || !item.category) {
+    return (
+      <div className="p-2 bg-yellow-100 text-yellow-800 rounded">
+        Información incompleta para mostrar la tarjeta.
+      </div>
+    );
+  }
+
   return (
     <div className="relative border border-blue-300 rounded-xl bg-blue-50 w-70  h-fit p-1">
       <div className="rounded-xl overflow-hidden h-35">
         <img
-          src={`/categorias/${category.id}.png`}
+          src={`/categorias/${category?.id || "default"}.png`}
           alt=""
           className="object-cover h-full w-full"
         />
