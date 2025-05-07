@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { deleteUsers, users } from "../axios/auth/login";
+import { deleteUsers, users, services } from "../axios/users/users";
 
 export default function Users() {
   const [data, setData] = useState([]);
+  const [srv, setSrv] = useState();
+
+  // const atentionRequired = srv?.filter((item) => item.status === "Pending").map((item) => item.user.id)
+  const atentionRequired = []
+
+  // console.log(atentionRequired)
+
 
   useEffect(() => {
     users()
@@ -10,6 +17,42 @@ export default function Users() {
       .catch((error) => console.log(error));
   }, []);
   // console.log(data);
+
+
+  // console.log(data)
+
+  useEffect(() => {
+    services()
+      .then((srv) => setSrv(srv))
+      .catch((error) => console.log(error));
+
+
+
+
+
+  }, []);
+
+  // console.log(srv)
+  // 
+
+  // srv.forEach((item) => {
+  //   // console.log(item)
+  //   if (item.status === "Pending") {
+
+  //     atentionRequired.includes(item.user.id)
+
+
+  //     atentionRequired.push({
+  //       'userId': item.user.id,
+  //       'atention': "pending",
+  //     })
+  //   }
+
+  // })
+
+
+
+
 
 
   function handleDelete(e) {
@@ -54,30 +97,43 @@ export default function Users() {
                 <th className="border">Nombre</th>
                 <th className="border">Email</th>
                 <th className="border">Rol</th>
+                <th className="border">Pendientes <br /> de revision</th>
                 <th className="border">Acciones</th>
               </tr>
             </thead>
             <tbody className="bg-white">
-              {data.map((item) => {
-                if(item.status === "inactivo"){
-                  return
-                }
-
-                return (<tr key={item.id} className="border-b hover:bg-gray-100 h-[25px] py-5">
-                  <td className="">{item.full_name}</td>
-                  <td className="">{item.email}</td>
-                  <td className="">{item.role.name}</td>
-                  <td className=" flex gap-2 justify-center items-center ">
-                    <button className="bg-blue-500 text-white px-2 py-1 rounded-md">Editar</button>
-                    <button id={item.id} onClick={(e) => handleDelete(e)} className="bg-red-500 text-white px-2 py-1 rounded-md">Eliminar</button>
-                  </td>
-                </tr>)
-
-              }
-
-
-
-              )}
+              {data
+                .filter((item) => item.status !== "inactivo")
+                .map((item) => {
+                  return (
+                    <tr key={item.id} className="border-b hover:bg-gray-100 h-[25px] py-5">
+                      <td className="">{item.full_name}</td>
+                      <td className="">{item.email}</td>
+                      <td className="">{item.role.name}</td>
+                      <td className="">
+                        {srv?.some(
+                          (itemSrv) =>
+                            itemSrv.status === "Pending" && item.id === itemSrv.user.id
+                        ) ?
+                          "Necesita Atención"
+                          : 
+                          "Sin pendientes"}
+                      </td>
+                      <td className="flex gap-2 justify-center items-center">
+                        <button className="bg-blue-500 text-white px-2 py-1 rounded-md">
+                          Revisar
+                        </button>
+                        <button
+                          id={item.id}
+                          onClick={(e) => handleDelete(e)}
+                          className="bg-red-500 text-white px-2 py-1 rounded-md"
+                        >
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
           <div>
