@@ -27,7 +27,7 @@ export default function DashboardComponent() {
     const reportHoursCounter = reportedHours(servicesInfo)
 
     const masUsada = aLotServiceType(servicesInfo)
-
+console.log(servicesInfo)
     const approveHours = aproveHours(servicesInfo)
     // console.log(servicesInfo[servicesInfo.length - 1])
 
