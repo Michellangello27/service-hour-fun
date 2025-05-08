@@ -1,10 +1,10 @@
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { registroHoras } from "../axios/auth/login";
+import { useNavigate } from "react-router";
 
 export default function RegistroHorasForm({ setShowModal }) {
-  const { register, handleSubmit } = useForm();
-
+  const { register } = useForm();
+  const navigate = useNavigate();
   async function handleCreate(e) {
     try {
       e.preventDefault();
@@ -16,6 +16,7 @@ export default function RegistroHorasForm({ setShowModal }) {
       if (data === 201) {
         alert("Actividad registrada con éxito");
         setShowModal(false);
+        navigate(0);
       }
     } catch (error) {
       console.log("Error al registrar actividad:", error);

@@ -4,7 +4,7 @@ import { editarActividad } from "../axios/auth/login";
 import { useNavigate } from "react-router";
 
 export default function EditarActividadForm({ setShowModalEdit, item }) {
-  const { register, reset } = useForm();
+  const { register, reset, handleSubmit } = useForm();
   const navigate = useNavigate();
   useEffect(() => {
     if (item) {
@@ -16,10 +16,8 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
     }
   }, [item, reset]);
 
-  async function handleEdit(e) {
+  async function handleEdit(requestData) {
     try {
-      e.preventDefault();
-      const requestData = new FormData(e.target);
       const status = await editarActividad(requestData, item.id);
       if (status === 200) {
         alert("Actividad editada con éxito");
@@ -36,8 +34,7 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
       <div className="bg-indigo-50 p-6 rounded-lg w-80 md:w-96">
         <h2 className="text-lg font-bold mb-4">Editar Actividad</h2>
         <form
-          onSubmit={handleEdit}
-          encType="multipart/form-data"
+          onSubmit={handleSubmit(handleEdit)}
           className="flex flex-col gap-3"
         >
           <div>
@@ -72,16 +69,6 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
               <option value="4">Revisión</option>
               <option value="5">Asistencia al templo</option>
             </select>
-          </div>
-          <div>
-            <label className="text-sm">Documento (PDF)</label>
-            <input
-              type="file"
-              {...register("evidence")}
-              accept="application/pdf"
-              required
-              className="border w-full p-1 rounded text-xs"
-            />
           </div>
           <div className="flex justify-end gap-2">
             <button

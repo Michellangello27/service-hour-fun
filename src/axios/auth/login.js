@@ -119,12 +119,7 @@ export async function registroHoras(request) {
 
 export async function editarActividad(data, id) {
   try {
-    const { status } = await instance.patch(`/services/${id}`, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
+    const { status } = await instance.patch(`/services/${id}`, data);
     return status;
   } catch (error) {
     throw error;
