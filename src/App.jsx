@@ -15,6 +15,7 @@ import Users from "./components/Users";
 import User from "./components/User";
 import StudentsInfo from "./components/StudentsInfo";
 import ProfileStudents from "./components/ProfileStudents";
+import ActualizarUsuario from "./components/ActualizarUsuario";
 
 
 
@@ -31,7 +32,7 @@ export default function App() {
           <Route path="/students-info" element={<StudentsInfo />} />
           {/* <Route path="/profile" element={<h1>Profile</h1>} /> */}
           {/* <Route path="/profile" element={<HorasServicio />} /> */}
-          <Route path="/profile" element={<ProfileStudents />} />
+          <Route path="/profile" element={<ActualizarUsuario/>} />
           <Route
             path="/forbiden"
             element={<h1>No tiene Permisos para acceder a este contenido</h1>}

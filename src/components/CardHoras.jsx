@@ -19,7 +19,7 @@ export default function CardHoras({ item }) {
       const data = await load(id);
       console.log(data);
       const blob = new Blob([data], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(data);
       window.open(url, "_blank");
     } catch (error) {
       console.error("error loading evidence:", error);
