@@ -35,27 +35,27 @@ export default function NewContactForm({ setCreateUserToggle }) {
     }, []);
 
     useEffect(() => {
-      getUserByRol(2) // obtener rol de controller
+        getUserByRol(2) // obtener rol de controller
             .then((contro) => setControllerList(contro))
             .catch((error) => console.log(error));
     }, []);
 
     useEffect(() => {
         getSchoolsList() // obtener lista de escuelas
-              .then((sch) => setSchoolsList(sch))
-              .catch((error) => console.log(error));
-      }, []);
-      useEffect(() => {
+            .then((sch) => setSchoolsList(sch))
+            .catch((error) => console.log(error));
+    }, []);
+    useEffect(() => {
         getUserByRol(3) // obtener rol de reclutador
-              .then((rec) => setRecruiterList(rec))
-              .catch((error) => console.log(error));
-      }, []);
-  
+            .then((rec) => setRecruiterList(rec))
+            .catch((error) => console.log(error));
+    }, []);
+
 
 
     return (
         <div>
-            <div className='flex flex-col justify-center items-center bg-white w-full h-full py-5  relative' >
+            <div className='flex flex-col border  justify-center items-center bg-white w-full h-full py-5  relative' >
 
                 <div className='absolute top-2 right-4'>
                     <figure className='size-6 cursor-pointer' onClick={() => setCreateUserToggle(false)}>
@@ -66,8 +66,8 @@ export default function NewContactForm({ setCreateUserToggle }) {
                     </figure>
                 </div>
 
-                <h2>Nuevo Usuario</h2>
-                <form className='flex flex-col gap-1 mt-4 w-[90%] md:w-[50%] lg:w-[30%] bg-white shadow-lg p-6 rounded-md'
+                <h2 className='font-semibold text-3xl'>Nuevo Usuario</h2>
+                <form className='flex flex-wrap border gap-1 mt-4 w-[90%] max-w-[450px] justify-center bg-white shadow-lg p-6 rounded-md'
                     onSubmit={handleSubmit(handleUserCreate)}>
 
 
@@ -91,35 +91,35 @@ export default function NewContactForm({ setCreateUserToggle }) {
 
                     <label htmlFor="role_id">Rol</label>
                     <select id="role_id" {...register("role_id")} required className='border border-gray-400 px-4  mb-2 w-full h-10 rounded-md'>
-                        <option value="" selected>Selecciona un rol</option>
+                        <option value="" >Selecciona un rol</option>
                         {roles.map((rol) => (
-                        <option key={rol.id} value={rol.id}>{rol.name}</option>
-                        
+                            <option key={rol.id} value={rol.id}>{rol.name}</option>
+
                         ))}
                     </select>
 
                     <label htmlFor="controller_id">Controller</label>
                     <select id="controller_id" {...register("controller_id")} required className='border border-gray-400 px-4  mb-2 w-full h-10 rounded-md'>
-                        <option value="" selected>Selecciona un Controller</option>                        
+                        <option value="" >Selecciona un Controller</option>
                         {
-                        controllerList.filter((controller) => controller.status === "activo").map((controller) => (
-                            <option key={controller.id} value={controller.id}>{controller.full_name}</option>
-                        ))
+                            controllerList.filter((controller) => controller.status === "activo").map((controller) => (
+                                <option key={controller.id} value={controller.id}>{controller.full_name}</option>
+                            ))
                         }
                     </select>
                     <label htmlFor="recruiter_id">Reclutador</label>
                     <select id="recruiter_id" {...register("recruiter_id")} required className='border border-gray-400 px-4  mb-2 w-full h-10 rounded-md'>
-                        <option value="" selected>Selecciona un reclutador</option>
+                        <option value="" >Selecciona un reclutador</option>
                         {
                             recruiterList.filter((recruiter) => recruiter.status === "activo").map((recruiter) => (
                                 <option key={recruiter.id} value={recruiter.id}>{recruiter.full_name}</option>
                             ))
                         }
 
-</select>
+                    </select>
                     <label htmlFor="country_id">Pais</label>
                     <select id='country_id' {...register("country_id")} required className='border border-gray-400 px-4  mb-2 w-full h-10 rounded-md'>
-                        <option value="" selected>Selecciona un país</option>
+                        <option value="" >Selecciona un país</option>
                         <option value="1">Honduras</option>
                         <option value="2">El Salvador</option>
                         <option value="3">Mexico</option>
@@ -127,7 +127,7 @@ export default function NewContactForm({ setCreateUserToggle }) {
 
                     <label htmlFor="school_id">Escuela</label>
                     <select id='school_id' {...register("schools")} required className='border border-gray-400 px-4  mb-2 w-full h-10 rounded-md'>
-                        <option value="" selected>Selecciona una escuela</option>
+                        <option value="" >Selecciona una escuela</option>
                         {
                             schoolsList.map((school) => (
                                 <option key={school.id} value={school.id}>{school.name}</option>
@@ -138,7 +138,7 @@ export default function NewContactForm({ setCreateUserToggle }) {
 
 
 
-                    <button type="submit" className='bg-blue-500 text-white px-4  rounded-md'
+                    <button type="submit" className='bg-blue-500 text-white px-4 h-[40px]  rounded-md'
                     >Crear Usuario</button>
                 </form>
 

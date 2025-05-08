@@ -146,7 +146,7 @@ export default function Users() {
 
         {/* <HorasServicio /> */}
         {toggleRequired === true &&
-          <div className={` w-full h-screen absolute top-0 right-0 overflow-y-auto  ${toggleRequired === true ? 'block' : 'hidden'}`}>
+          <div className={` w-full h-screen absolute top-0 right-0 overflow-y-auto `}>
             <HorasServicio
               reviewUser={reviewUser}
               setToggleRequired={setToggleRequired} />
@@ -157,7 +157,7 @@ export default function Users() {
 
         {createUserToggle === true &&
 
-          <div role="NewContact" className="border absolute top-0  left-0 w-[300px] h-[500px] bg-white  overflow-x-auto  ">
+          <div role="NewContact" className="border absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-[550px] h-[500px] bg-white overflow-x-auto ">
             <NewContactForm
               setCreateUserToggle={setCreateUserToggle}
             />
