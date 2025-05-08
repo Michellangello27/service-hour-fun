@@ -103,3 +103,12 @@ export async function revisionHorasServicio(request, id) {
     throw error;
   }
 }
+
+export async function getCountries() {
+  try {
+    const { data } = await instance.get(`/countries`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

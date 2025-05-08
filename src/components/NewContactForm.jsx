@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { set, useForm } from 'react-hook-form'
-import { createUser, getRoles, getSchoolsList, getUserByRol } from '../axios/users/users';
+import { createUser, getCountries, getRoles, getSchoolsList, getUserByRol } from '../axios/users/users';
 
 export default function NewContactForm({ setCreateUserToggle,fetchData }) {
 
@@ -9,7 +9,7 @@ export default function NewContactForm({ setCreateUserToggle,fetchData }) {
     const [controllerList, setControllerList] = useState([]);
     const [schoolsList, setSchoolsList] = useState([]);
     const [recruiterList, setRecruiterList] = useState([]);
-
+    const [countriesList, setCountriesList] = useState([])
 
     async function handleUserCreate(requestData) {
         try {
@@ -35,11 +35,12 @@ export default function NewContactForm({ setCreateUserToggle,fetchData }) {
             .catch((error) => console.log(error));
     }, []);
 
-    // useEffect(() => {
-    //     getRoles()
-    //         .then((rol) => setRoles(rol))
-    //         .catch((error) => console.log(error));
-    // }, []);
+    useEffect(() => {
+        getCountries()
+            .then((ct) => setCountriesList(ct))
+            .catch((error) => console.log(error));
+    }, []);
+console.log(countriesList)
 
     useEffect(() => {
         getUserByRol(2) // obtener rol de controller
@@ -127,9 +128,12 @@ export default function NewContactForm({ setCreateUserToggle,fetchData }) {
                     <label htmlFor="country_id">Pais</label>
                     <select id='country_id' {...register("country_id")} required className='border border-gray-400 px-4  mb-2 w-full h-10 rounded-md'>
                         <option value="" >Selecciona un país</option>
-                        <option value="1">Honduras</option>
-                        <option value="2">El Salvador</option>
-                        <option value="3">Mexico</option>
+                        
+                        {
+                            countriesList.map((country) => (
+                                <option key={country.id} value={country.id}>{country.name}</option>
+                            ))
+                        }
                     </select>
 
                     <label htmlFor="school_id">Escuela</label>
