@@ -39,3 +39,39 @@ export async function services() {
     }
   }
   
+  export async function createUser(request) {
+    try {
+      const { status } = await instance.post(`/users`, request);
+      return status;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  export async function getRoles() {
+    try {
+      const { data } = await instance.get(`/roles`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+  export async function getUserByRol(id) {
+    try {
+      const { data } = await instance.get(`/users?r=${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  export async function getSchoolsList() {
+    try {
+      const { data } = await instance.get(`/schools`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }

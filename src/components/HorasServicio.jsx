@@ -8,7 +8,6 @@ import { servicesIdUser } from '../axios/users/users';
 export default function HorasServicio({ reviewUser, setToggleRequired }) {
   const [userData, setUserData] = useState([]);
 
-  console.log(reviewUser)
   const [serviceData, setServiceData] = useState([]); // Estado para almacenar los servicios
 
   // Función para obtener los datos del perfil

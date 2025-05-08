@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { deleteUsers, users, services } from "../axios/users/users";
 import HorasServicio from "./HorasServicio";
 import { set } from "react-hook-form";
+import NewContactForm from "./NewContactForm";
 
 export default function Users() {
   const [data, setData] = useState([]);
   const [srv, setSrv] = useState();
   const [toggleRequired, setToggleRequired] = useState(false)
   const [reviewUser, setReviewUser] = useState(null)
+  const [createUserToggle, setCreateUserToggle] = useState(false)
 
   // const atentionRequired = srv?.filter((item) => item.status === "Pending").map((item) => item.user.id)
   const atentionRequired = []
@@ -77,7 +79,7 @@ export default function Users() {
             <select name="" id="" className="border rounded-md p-2 bg-white">
               <option value="">Todas</option>
             </select>
-            <button className="bg-white px-2 py-2.5 rounded-md" >Crear Nuevo Usuario</button>
+            <button className="bg-white px-2 py-2.5 rounded-md" onClick={() => setCreateUserToggle(true)} >Crear Nuevo Usuario</button>
 
           </div>
 
@@ -111,19 +113,22 @@ export default function Users() {
                             :
                             "Sin pendientes"}
                         </td>
-                        <td className="flex gap-2 justify-center items-center">
-                          <button className="bg-blue-500 text-white px-2 py-1 rounded-md"
-                            onClick={(e) => handleToggleRequired(e)}
-                            id={item.id}>
-                            Revisar
-                          </button>
-                          <button
-                            id={item.id}
-                            onClick={(e) => handleDelete(e)}
-                            className="bg-red-500 text-white px-2 py-1 rounded-md"
-                          >
-                            Eliminar
-                          </button>
+                        <td className="" colSpan="2">
+                          <div className="flex gap-2 h-full items-center justify-center"> 
+                            <button className="bg-blue-500 text-white px-2 py-2  rounded-md"
+                              onClick={(e) => handleToggleRequired(e)}
+                              id={item.id}>
+                              Revisar
+                            </button>
+                            <button
+                              id={item.id}
+                              onClick={(e) => handleDelete(e)}
+                              className="bg-red-500  text-white px-2 py-2 rounded-md"
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+
                         </td>
                       </tr>
                     );
@@ -140,19 +145,23 @@ export default function Users() {
         </div>
 
         {/* <HorasServicio /> */}
-        {
-          toggleRequired === true &&
-
+        {toggleRequired === true &&
           <div className={` w-full h-screen absolute top-0 right-0 overflow-y-auto  ${toggleRequired === true ? 'block' : 'hidden'}`}>
             <HorasServicio
               reviewUser={reviewUser}
               setToggleRequired={setToggleRequired} />
 
           </div>
-
-
-
         }
+
+
+        {createUserToggle === true &&
+
+          <div role="NewContact" className="border absolute top-0  left-0 w-[300px] h-[500px] bg-white  overflow-x-auto  ">
+            <NewContactForm
+              setCreateUserToggle={setCreateUserToggle}
+            />
+          </div>}
 
 
 
