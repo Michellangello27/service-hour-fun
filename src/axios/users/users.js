@@ -27,8 +27,6 @@ export async function services() {
     }
   }
 
-
-
   
   export async function servicesIdUser(id) {
     try {
@@ -42,6 +40,20 @@ export async function services() {
   export async function createUser(request) {
     try {
       const { status } = await instance.post(`/users`, request);
+      return status;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  export async function updateUsers(id, requestData) {
+    try {
+      const  status  = await instance.put(`/users/${id}`, requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(status)
       return status;
     } catch (error) {
       throw error;

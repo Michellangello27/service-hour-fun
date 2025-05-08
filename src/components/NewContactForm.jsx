@@ -135,9 +135,6 @@ export default function NewContactForm({ setCreateUserToggle }) {
                         }
                     </select>
 
-
-
-
                     <button type="submit" className='bg-blue-500 text-white px-4 h-[40px]  rounded-md'
                     >Crear Usuario</button>
                 </form>
