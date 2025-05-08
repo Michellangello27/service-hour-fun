@@ -1,34 +1,33 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { editarActividad } from "../axios/auth/login";
+import { useNavigate } from "react-router";
 
 export default function EditarActividadForm({ setShowModalEdit, item }) {
-  const { register, handleSubmit, reset } = useForm();
-  const itemId = item.id;
-  console.log(itemId);
+  const { register, reset, handleSubmit } = useForm();
+  const navigate = useNavigate();
   useEffect(() => {
     if (item) {
       reset({
         amount_reported: item.amount_reported,
         description: item.description,
         category_id: item.category.id,
-        evidence: item.evidence,
       });
     }
   }, [item, reset]);
 
-  const handleEdit = async (data) => {
+  async function handleEdit(requestData) {
     try {
-      const status = await editarActividad(data, itemId);
-      console.log(status);
+      const status = await editarActividad(requestData, item.id);
       if (status === 200) {
         alert("Actividad editada con éxito");
         setShowModalEdit(false);
+        navigate(0);
       }
     } catch (error) {
       console.log("Error al editar la actividad:", error);
     }
-  };
+  }
 
   return (
     <div className="fixed inset-0 z-10 flex justify-center items-center rounded-lg">
@@ -36,14 +35,13 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
         <h2 className="text-lg font-bold mb-4">Editar Actividad</h2>
         <form
           onSubmit={handleSubmit(handleEdit)}
-          encType="multipart/form-data"
           className="flex flex-col gap-3"
         >
           <div>
             <label className="text-sm">Horas reportadas</label>
             <input
               type="number"
-              {...register("amount_reported")}
+              {...register("amount_reported", { valueAsNumber: true })}
               required
               className="border w-full p-1 rounded"
             />
@@ -71,16 +69,6 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
               <option value="4">Revisión</option>
               <option value="5">Asistencia al templo</option>
             </select>
-          </div>
-          <div>
-            <label className="text-sm">Documento (PDF)</label>
-            <input
-              type="file"
-              {...register("evidence")}
-              accept="application/pdf"
-              required
-              className="border w-full p-1 rounded text-xs"
-            />
           </div>
           <div className="flex justify-end gap-2">
             <button
