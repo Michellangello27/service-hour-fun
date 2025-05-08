@@ -20,6 +20,7 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
   const handleEdit = async (data) => {
     try {
       const status = await editarActividad(data, itemId);
+      console.log(status);
       if (status === 200) {
         alert("Actividad editada con éxito");
         setShowModalEdit(false);
@@ -43,7 +44,6 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
             <input
               type="number"
               {...register("amount_reported")}
-              name="Amount_reported"
               required
               className="border w-full p-1 rounded"
             />

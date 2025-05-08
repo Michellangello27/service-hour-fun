@@ -22,15 +22,13 @@ export async function profile() {
 
 // para actualizar el perfil
 export async function updateprofile(data) {
-
   try {
-      const response = await instance.put(`/auth/profile`, data)
-      return response.data;  
+    const response = await instance.put(`/auth/profile`, data);
+    return response.data;
   } catch (error) {
-    console.log('Error en la solicitud:', error.response || error.message);
-      throw error
+    console.log("Error en la solicitud:", error.response || error.message);
+    throw error;
   }
-
 }
 
 export async function services() {
@@ -106,9 +104,9 @@ export async function changePassword(data) {
   }
 }
 
-export async function registroHoras(data) {
+export async function registroHoras(request) {
   try {
-    const { status } = await instance.post(`/services`, data, {
+    const { status } = await instance.post(`/services`, request, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -119,19 +117,31 @@ export async function registroHoras(data) {
   }
 }
 
-export async function getDocument(id) {
+export async function editarActividad(data, id) {
   try {
-    const { data } = await instance.get(`/services/${id}`);
-    return data;
+    const { status } = await instance.patch(`/services/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return status;
   } catch (error) {
     throw error;
   }
 }
 
-export async function editarActividad(data, id) {
+export async function load(id) {
   try {
-    const { status } = await instance.put(`/services/${id}`, data);
-    return status;
+    const { data } = await instance.get(`/services/${id}`, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/pdf",
+      },
+      responseType: "blob",
+    });
+
+    return data;
   } catch (error) {
     throw error;
   }

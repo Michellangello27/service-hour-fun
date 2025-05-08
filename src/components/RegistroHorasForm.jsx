@@ -11,7 +11,7 @@ export default function RegistroHorasForm({ setShowModal }) {
 
       const data = await registroHoras(requestData);
       console.log(data);
-      if (data.status === 200) {
+      if (data === 200) {
         alert("Actividad registrada con éxito");
         setShowModal(false);
       }

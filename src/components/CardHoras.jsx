@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import EditarActividadForm from "./EditarActividadForm";
+import { load, services } from "../axios/auth/login";
 
 export default function CardHoras({ item }) {
   const [showModalEdit, setShowModalEdit] = useState(false);
-
   const { amount_reported, description, category, status, evidence } =
     item || {};
   if (!item || !item.category) {
@@ -13,6 +13,17 @@ export default function CardHoras({ item }) {
         Información incompleta para mostrar la tarjeta.
       </div>
     );
+  }
+  async function handleLoad(id) {
+    try {
+      const data = await load(id);
+      console.log(data);
+      const blob = new Blob([data], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank");
+    } catch (error) {
+      console.error("error loading evidence:", error);
+    }
   }
 
   return (
@@ -39,7 +50,12 @@ export default function CardHoras({ item }) {
       <p>
         <strong>Documento:</strong>
       </p>
-      <p>{evidence}</p>
+      <button
+        className="cursor-pointer px-2 py-1 rounded underline hover:text-blue-700 "
+        onClick={() => handleLoad(item.id)}
+      >
+        {evidence ? "Ver documento" : "Sin documento"}
+      </button>
       <p>
         <strong>Estado:</strong>
       </p>
@@ -47,7 +63,8 @@ export default function CardHoras({ item }) {
       <div className="flex justify-center  w-full ">
         {/* Boton Editar */}
         <button
-          className="w-90/100 my-2 cursor-pointer border border-blue-700 rounded-md bg-violet-200 p-1"
+          className="w-90/100 my-2 cursor-pointer border border-blue-700 rounded-md bg-violet-200 p-1 text-black hover:bg-violet-300 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+          disabled={status !== "Pending"}
           onClick={() => setShowModalEdit(true)}
         >
           Editar

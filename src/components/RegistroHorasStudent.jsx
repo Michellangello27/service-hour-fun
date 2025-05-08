@@ -8,8 +8,6 @@ export default function RegistroHorasStudent() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState("Todas");
 
-  console.log(data);
-
   useEffect(() => {
     services()
       .then((rs) => setData(rs))
