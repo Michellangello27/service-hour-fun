@@ -2,23 +2,22 @@
 import React, { useState, useEffect } from 'react';
 import { findUser } from '../axios/auth/login';
 import { set } from 'react-hook-form';
-import { servicesIdUser } from '../axios/users/users';
+import { servicesId, servicesIdUser } from '../axios/users/users';
+import CardHoras from './CardHoras';
 
 
 export default function HorasServicio({ reviewUser, setToggleRequired }) {
   const [userData, setUserData] = useState([]);
-
-  const [serviceData, setServiceData] = useState([]); // Estado para almacenar los servicios
-
-  // Función para obtener los datos del perfil
+  const [toggleReview, setToggleReview] = useState(false);
+  const [reviewUserId, setReviewUserId] = useState(null);
+  const [serviceData, setServiceData] = useState([]);
+  const [reviewData, setReviewData] = useState([]);
 
   useEffect(() => {
     findUser(reviewUser)
       .then((rs) => setUserData(rs))
       .catch((error) => console.log(error));
   }, []);
-
-
 
   useEffect(() => {
     servicesIdUser(reviewUser)
@@ -30,13 +29,32 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
       });
   }, []);
 
+  function handleToggleReview(e) {
+    setToggleReview(true);
+    setReviewUserId(e.target.id);
+
+
+
+
+
+  }
+
+
+  useEffect(() => {
+    servicesId(reviewUserId)
+      .then((rw) => setReviewData(rw))
+      .catch((error) => console.log(error));
+  }, [reviewUserId]);
+
+  console.log(reviewData)
+
 
 
 
   return (
     <>
-      <div className='flex flex-col justify-center items-center bg-white w-full h-screen relative'>
-        <div className='flex flex-row justify-between gap-8 mb-8'>
+      <div className='flex flex-col mt-4 pt-20 items-center bg-white w-full h-screen relative px-2 overflow-y-auto'>
+        <div className='flex w-full flex-row justify-between gap-8 mb-8'>
           <div>
 
             <img className="rounded-md mt-8" src="./estudiante.png" alt="Estudiante" width={180} />
@@ -73,28 +91,28 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
 
           </div>
         </div>
-        <div className='w-[800px] h-[350px] overflow-y-auto'>
+        <div className='w-full text-[10px]  flex justify-center '>
           <table className='border border-gray-400   px-4 py-4'>
 
             <thead className='bg-gray-200 px-4 py-2 h-10 gap-8'>
 
               <tr className='border border-gray-400'>
                 <th>Item</th>
-                <th className='ml-2 md:ml-4'>Nombre de la Actividad</th>
                 <th className='ml-2 md:ml-4'>Tipo de Servicio</th>
                 <th className='ml-2 md:ml-4'>Aprobado por</th>
 
-                <th className='ml-2 md:ml-4'>Horas Reportadas</th>
+                <th className='ml-2 md:ml-4'>Horas <br /> Reportadas</th>
+                <th className='ml-2 md:ml-4'>Acciones</th>
               </tr>
             </thead>
             <tbody>
               {serviceData.map((service, index) => (
                 <tr key={service.id} className='border border-gray-400'>
                   <td className='text-center'>{index + 1}</td>
-                  <td>{service.description}</td>
                   <td>{service.category?.name || 'Sin categoría'}</td>
                   <td>{service.reviewer?.full_name || 'Pendiente'}</td>
                   <td className='text-center'>{service.amount_reported}</td>
+                  <td>{service.reviewer === null ? <button onClick={(e) => handleToggleReview(e)} id={service.id} className='bg-blue-500 text-white px-2 py-2 my-1 mx-2 rounded-md cursor-pointer'>Revisar</button> : ""}</td>
                 </tr>
               ))}
             </tbody>
@@ -111,15 +129,69 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
         </div>
 
 
-        <div className='absolute top-10 right-10'>
+        <div className={`absolute top-10 right-10 ${toggleReview && "hidden"} `}>
           <figure className='size-6 cursor-pointer' onClick={() => setToggleRequired(false)}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
 
           </figure>
+
         </div>
+
+
+        {toggleReview &&
+
+          <div className='absolute border flex flex-col justify-center bg-white rounded-3xl p-2 gap-2 items-center  w-[300px] h-fit overflow-y-auto'>
+
+            <h2 className='text-2xl'>Reviewer</h2>
+            <figure className='size-6 cursor-pointer absolute  top-1 left-5 ' onClick={() => setToggleReview(false)}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+
+            </figure>
+            <CardHoras
+              item={reviewData}
+              setToggleReview={setToggleReview}
+            />
+
+            <div >
+              <form action="" className='flex flex-col gap-1  shadow-lg p-6 rounded-md '>
+                <label htmlFor="">Observaciones</label>
+                <input type="text" name="" id="" className='border border-gray-400 px-4 py-2 mb-2 w-full h-10 rounded-md' />
+                <label htmlFor="">Estado</label>
+                <select className='shadow-lg  rounded-md' name="" id="">
+                  <option value="">Seleccione una Opcion</option>
+                  <option value="">Aprobar</option>
+                  <option value="">Rechazar</option>
+                </select>
+                <label htmlFor="hours">Horas aprobadas</label>
+                <input
+                  type="range"
+                  name="hours"
+                  id="hours"
+                  min="50000"
+                  max="500000"
+                  step="100"
+                  className="border border-gray-400 px-4 py-2 mb-2 w-full h-10 rounded-md"
+                />
+                <output className="" htmlFor="hours"></output>
+
+
+
+              </form>
+
+            </div>
+
+
+          </div>
+
+        }
+
+
       </div>
+
 
     </>
   );
