@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { set, useForm } from 'react-hook-form'
 import { createUser, getRoles, getSchoolsList, getUserByRol } from '../axios/users/users';
 
-export default function NewContactForm({ setCreateUserToggle }) {
+export default function NewContactForm({ setCreateUserToggle,fetchData }) {
 
     const { register, handleSubmit } = useForm();
     const [roles, setRoles] = useState([]);
@@ -21,6 +21,7 @@ export default function NewContactForm({ setCreateUserToggle }) {
             console.log(data);
             if (data === 201) {
                 setCreateUserToggle(false);
+                fetchData()
                 alert("Usuario registrado con éxito");
             }
         } catch (error) {
@@ -33,6 +34,12 @@ export default function NewContactForm({ setCreateUserToggle }) {
             .then((rol) => setRoles(rol))
             .catch((error) => console.log(error));
     }, []);
+
+    // useEffect(() => {
+    //     getRoles()
+    //         .then((rol) => setRoles(rol))
+    //         .catch((error) => console.log(error));
+    // }, []);
 
     useEffect(() => {
         getUserByRol(2) // obtener rol de controller
