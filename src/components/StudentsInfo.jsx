@@ -1,30 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { services, users } from "../axios/auth/login";
+import { services, users, findUser } from "../axios/auth/login";
 import { amountHours, reportedHours, aproveHours } from "../js/amountHours";
 
 export default function StudentsInfo() {
   const [data, setData] = useState([]);
   const [dataServices, setDataServices] = useState([]);
+  const [studentSchools, setStudentSchools] = useState({}); // To store school names for each student
 
   useEffect(() => {
+    // Fetch students
     users()
       .then((rs) => {
         const rsFiltered = rs.filter(
           (user) => user.role_id === 4 && user.status === "activo"
         );
         setData(rsFiltered);
+
+        // Fetch school data for each student
+        fetchStudentSchools(rsFiltered);
       })
       .catch((error) => console.log(error));
 
+    // Fetch services
     services()
       .then((rs) => setDataServices(rs))
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
   }, []);
 
-  console.log(data);
-  console.log(dataServices);
+  // Auxiliary function to fetch school data for all students
+  const fetchStudentSchools = async (students) => {
+    const schools = {};
+    for (const student of students) {
+      try {
+        const studentData = await findUser(student.id); // Fetch data from /users/:id
+        schools[student.id] = studentData.schools
+          .map((school) => school.name)
+          .join(", ");
+      } catch (error) {
+        console.log(`Error fetching schools for student ${student.id}:`, error);
+        schools[student.id] = "N/A"; // Default to "N/A" if there's an error
+      }
+    }
+    setStudentSchools(schools); // Update state with school names
+  };
 
   // Helper function to calculate hours for each student
   const calculateHours = (studentId) => {
@@ -50,9 +68,6 @@ export default function StudentsInfo() {
               <th className="border border-gray-300 px-4 py-2 text-left">
                 Carrera
               </th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                Nivel
-              </th>
               <th className="border border-gray-300 px-4 py-2 text-center">
                 Horas de Servicio (A/R/N)
               </th>
@@ -67,10 +82,7 @@ export default function StudentsInfo() {
                   } ${student.s_lastname || ""}`}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {student.career || "N/A"}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {student.level || "N/A"}
+                  {studentSchools[student.id] || "Loading..."}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-center">
                   {calculateHours(student.id)}
