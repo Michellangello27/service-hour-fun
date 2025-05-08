@@ -46,7 +46,7 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
       .catch((error) => console.log(error));
   }, [reviewUserId]);
 
-  console.log(reviewData)
+  // console.log(reviewData)
 
 
 

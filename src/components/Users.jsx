@@ -21,7 +21,7 @@ export default function Users() {
     users()
       .then((rs) => setData(rs))
       .catch((error) => console.log(error));
-  }, []);
+  }, [data]);
   // console.log(data);
 
 
