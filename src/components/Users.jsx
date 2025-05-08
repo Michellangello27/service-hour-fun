@@ -8,7 +8,7 @@ export default function Users() {
   const [data, setData] = useState([]);
   const [srv, setSrv] = useState();
   const [toggleRequired, setToggleRequired] = useState(false)
-  const [reviewUser, setReviewUser] = useState(null)
+  const [reviewUser, setReviewUser] = useState("")
   const [createUserToggle, setCreateUserToggle] = useState(false)
 
   // const atentionRequired = srv?.filter((item) => item.status === "Pending").map((item) => item.user.id)

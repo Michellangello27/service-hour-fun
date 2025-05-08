@@ -75,3 +75,13 @@ export async function services() {
       throw error;
     }
   }
+
+  export async function servicesId(id) {
+    try {
+      const { data } = await instance.get(`/services/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  

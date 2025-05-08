@@ -16,16 +16,7 @@ import User from "./components/User";
 import StudentsInfo from "./components/StudentsInfo";
 import ProfileStudents from "./components/ProfileStudents";
 
-// Protected Route Component
-/* function ProtectedRoute({ children }) {
-  const token = Cookies.get("token"); // Check for the 'token' cookie
-  return token ? children : <Navigate to="/login" />;
-} */
-/* element={
-    <ProtectedRoute>
-      <AuthLayout />
-    </ProtectedRoute>
-  } */
+
 
 export default function App() {
   return (
@@ -37,7 +28,6 @@ export default function App() {
 
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<User />} />
-          <Route path="/create-user" element={<h1>Create User</h1>} />
           <Route path="/students-info" element={<StudentsInfo />} />
           {/* <Route path="/profile" element={<h1>Profile</h1>} /> */}
           {/* <Route path="/profile" element={<HorasServicio />} /> */}
