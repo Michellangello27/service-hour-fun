@@ -133,9 +133,9 @@ export async function editarActividad(data, id) {
 
 export async function load(id) {
   try {
-    const { data } = await instance.get(`/services/${id}`, {
+    const { data } = await instance.get(`/evidence/${id}`, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/pdf",
         Accept: "application/pdf",
       },
       responseType: "blob",
