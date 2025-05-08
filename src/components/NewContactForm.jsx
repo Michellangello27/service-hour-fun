@@ -40,7 +40,7 @@ export default function NewContactForm({ setCreateUserToggle,fetchData }) {
             .then((ct) => setCountriesList(ct))
             .catch((error) => console.log(error));
     }, []);
-console.log(countriesList)
+
 
     useEffect(() => {
         getUserByRol(2) // obtener rol de controller
