@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  getRoles,
-  getSchoolsList,
-  getUserByRol,
-} from "../axios/users/users";
+import { getRoles, getSchoolsList, getUserByRol } from "../axios/users/users";
 import { findUser, profile, update } from "../axios/auth/login";
 
 export default function ActualizarUsuario({
   idEditProfile,
   setToggleEditProfile,
+  fetchData,
 }) {
   const { register, handleSubmit, reset, watch } = useForm();
   const [roles, setRoles] = useState([]);
@@ -26,17 +23,16 @@ export default function ActualizarUsuario({
   async function handleUserUpdate(requestData) {
     try {
       requestData.schools = [requestData.schools];
-      console.log("Datos enviados para actualizar:", requestData);
 
       const status = await update(requestData, userId); // usa `update()` con id correspondiente
 
       if (status === 200 || status === 201) {
         alert("Usuario actualizado con éxito");
+        fetchData();
         if (setToggleEditProfile) setToggleEditProfile(false);
       }
     } catch (error) {
-      console.error("Error al actualizar usuario:", error);
-      alert("Error al actualizar usuario");
+      alert("Error al actualizar usuario:", error);
     }
   }
 

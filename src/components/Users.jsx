@@ -230,6 +230,7 @@ export default function Users() {
               <ActualizarUsuario
                 idEditProfile={idEditProfile}
                 setToggleEditProfile={setToggleEditProfile}
+                fetchData={fetchData}
               />
             </div>
           </div>
