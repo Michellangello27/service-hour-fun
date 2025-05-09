@@ -12,7 +12,7 @@ export default function RegistroHorasStudent() {
     services()
       .then((rs) => setData(rs))
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }, []);
 

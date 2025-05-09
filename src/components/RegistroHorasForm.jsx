@@ -9,17 +9,14 @@ export default function RegistroHorasForm({ setShowModal }) {
     try {
       e.preventDefault();
       const requestData = new FormData(e.target);
-      console.log(requestData);
-
       const data = await registroHoras(requestData);
-      console.log(data);
       if (data === 201) {
         alert("Actividad registrada con éxito");
         setShowModal(false);
         navigate(0);
       }
     } catch (error) {
-      console.log("Error al registrar actividad:", error);
+      console.error("Error al registrar actividad:", error);
     }
   }
 

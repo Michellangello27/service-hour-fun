@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
 import { logout, profile } from "../../axios/auth/login";
-import Cookies from "js-cookie"; // Import js-cookie
+import Cookies from "js-cookie";
 
 export const ProfileContext = createContext();
 
@@ -14,11 +14,7 @@ export default function AuthLayout() {
     profile()
       .then((rs) => setData(rs))
       .catch((error) => {
-        console.log(error);
-        /* if (error.response && error.response.status === 401) {
-          Cookies.remove("token"); // Clear the 'token' cookie
-          navigate("/login"); // Redirect to login
-        } */
+        console.error(error);
       });
   }, []);
 
@@ -26,11 +22,11 @@ export default function AuthLayout() {
     try {
       const status = await logout();
       if (status === 200) {
-        Cookies.remove("token"); // Clear the 'token' cookie
+        Cookies.remove("token");
         navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

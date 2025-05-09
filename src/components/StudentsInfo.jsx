@@ -6,10 +6,9 @@ import { services } from "../axios/servicios/servicios";
 export default function StudentsInfo() {
   const [data, setData] = useState([]);
   const [dataServices, setDataServices] = useState([]);
-  const [studentSchools, setStudentSchools] = useState({}); // To store school names for each student
+  const [studentSchools, setStudentSchools] = useState({});
 
   useEffect(() => {
-    // Fetch students
     users()
       .then((rs) => {
         const rsFiltered = rs.filter(
@@ -17,42 +16,41 @@ export default function StudentsInfo() {
         );
         setData(rsFiltered);
 
-        // Fetch school data for each student
         fetchStudentSchools(rsFiltered);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
 
-    // Fetch services
     services()
       .then((rs) => setDataServices(rs))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
-  // Auxiliary function to fetch school data for all students
   const fetchStudentSchools = async (students) => {
     const schools = {};
     for (const student of students) {
       try {
-        const studentData = await findUser(student.id); // Fetch data from /users/:id
+        const studentData = await findUser(student.id);
         schools[student.id] = studentData.schools
           .map((school) => school.name)
           .join(", ");
       } catch (error) {
-        console.log(`Error fetching schools for student ${student.id}:`, error);
-        schools[student.id] = "N/A"; // Default to "N/A" if there's an error
+        console.error(
+          `Error fetching schools for student ${student.id}:`,
+          error
+        );
+        schools[student.id] = "N/A";
       }
     }
-    setStudentSchools(schools); // Update state with school names
+    setStudentSchools(schools);
   };
 
-  // Helper function to calculate hours for each student
   const calculateHours = (studentId) => {
     const studentServices = dataServices.filter(
       (service) => service.user.id === studentId
     );
     const approved = aproveHours(studentServices);
     const reported = reportedHours(studentServices);
-    const necessary = amountHours(studentServices[0]?.category?.name || ""); // Assuming category name determines necessary hours
+    const necessary = amountHours(studentServices[0]?.category?.name || "");
     return `${approved}/${reported}/${necessary}`;
   };
 
