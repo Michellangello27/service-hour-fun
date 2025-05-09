@@ -45,29 +45,23 @@ export async function createUser(request) {
   }
 }
 
-  export async function updateUsers(id, requestData) {
-    try {
-      const  status  = await instance.put(`/users/${id}`, requestData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(status)
-      return status;
-    } catch (error) {
-      throw error;
-    }
+export async function updateUsers(id, requestData) {
+  try {
+    const { status } = await instance.put(`/users/${id}`, requestData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return status;
+  } catch (error) {
+    throw error;
   }
+}
 
-  export async function getRoles() {
-    try {
-      const { data } = await instance.get(`/roles`);
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  }
-
+export async function getRoles() {
+  try {
+    const { data } = await instance.get(`/roles`);
+    
 export async function getUserByRol(id) {
   try {
     const { data } = await instance.get(`/users?r=${id}`);
@@ -76,7 +70,7 @@ export async function getUserByRol(id) {
     throw error;
   }
 }
-
+    
 export async function getSchoolsList() {
   try {
     const { data } = await instance.get(`/schools`);
@@ -94,7 +88,6 @@ export async function servicesId(id) {
     throw error;
   }
 }
-
 export async function revisionHorasServicio(request, id) {
   try {
     const { data } = await instance.patch(`/services/${id}/review`, request);
@@ -112,4 +105,3 @@ export async function getCountries() {
     throw error;
   }
 }
-

@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getRoles, getSchoolsList, getUserByRol, updateUsers } from "../axios/users/users";
+import {
+  getRoles,
+  getSchoolsList,
+  getUserByRol,
+  updateUsers,
+} from "../axios/users/users";
 import { profile } from "../axios/auth/login";
 
-
 export default function ActualizarUsuario() {
-
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [roles, setRoles] = useState([]);
   const [controllerList, setControllerList] = useState([]);
   const [schoolsList, setSchoolsList] = useState([]);
   const [recruiterList, setRecruiterList] = useState([]);
   const [perfil, setPerfil] = useState({});
-  const userId = perfil?.id
-  console.log(perfil)
+  const userId = perfil?.id;
+  const isStudent = perfil?.role_id === 4;
 
   // Función para manejar la actualización del usuario
   async function handleUserUpdate(requestData) {
     try {
       requestData.schools = [requestData.schools]; // Asegurarse de que `schools` sea un array
-      console.log("Datos enviados para actualizar:", requestData);
 
       const status = await updateUsers(userId, requestData); // Llamar a la función `updateUsers`
       if (status === 200 || status === 201) {
@@ -27,8 +29,7 @@ export default function ActualizarUsuario() {
         alert("Usuario actualizado con éxito");
       }
     } catch (error) {
-      console.error("Error al actualizar usuario:", error);
-      alert("Error al actualizar usuario");
+      alert("Error al actualizar usuario:", error);
     }
   }
 
@@ -55,28 +56,22 @@ export default function ActualizarUsuario() {
       .catch((error) => console.error(error));
   }, []);
 
-  // Cargar datos del usuario para prellenar el formulario
-//   useEffect(() => {
-//     async function fetchUserData() {
-//       try {
-//         const userData = await getUserByRol(userId); // Cambia esto si tienes una función específica para obtener un usuario
-//         console.log("Datos del usuario:", userData);
-
-//         // Prellenar los valores del formulario
-//         Object.keys(userData).forEach((key) => {
-//           if (key === "schools") {
-//             setValue("schools", userData.schools[0]?.id || ""); // Prellenar la primera escuela
-//           } else {
-//             setValue(key, userData[key]);
-//           }
-//         });
-//       } catch (error) {
-//         console.error("Error al cargar datos del usuario:", error);
-//       }
-//     }
-
-//     fetchUserData();
-//   }, [userId, setValue]);
+  useEffect(() => {
+    if (perfil && perfil.id) {
+      reset({
+        f_name: perfil?.f_name || "",
+        m_name: perfil?.m_name || "",
+        f_lastname: perfil?.f_lastname || "",
+        s_lastname: perfil?.s_lastname || "",
+        email: perfil?.email || "",
+        role_id: perfil?.role_id || "",
+        controller_id: perfil?.student?.controller?.id || "",
+        recruiter_id: perfil?.student?.recruiter?.id || "",
+        country_id: perfil?.student?.country?.id || "",
+        schools: perfil?.schools?.[0]?.id || "",
+      });
+    }
+  }, [perfil, reset]);
 
   return (
     <div>
@@ -112,7 +107,6 @@ export default function ActualizarUsuario() {
           <input
             type="text"
             id="f_name"
-            defaultValue={perfil?.f_name}
             {...register("f_name")}
             required
             className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
@@ -122,7 +116,6 @@ export default function ActualizarUsuario() {
           <input
             type="text"
             id="m_name"
-            defaultValue={perfil?.m_name }
             {...register("m_name")}
             className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
@@ -131,7 +124,6 @@ export default function ActualizarUsuario() {
           <input
             type="text"
             id="f_lastname"
-            defaultValue={perfil?.f_lastname}
             {...register("f_lastname")}
             required
             className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
@@ -141,7 +133,6 @@ export default function ActualizarUsuario() {
           <input
             type="text"
             id="s_lastname"
-            defaultValue={perfil?.s_lastname}
             {...register("s_lastname")}
             className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
@@ -150,17 +141,7 @@ export default function ActualizarUsuario() {
           <input
             type="email"
             id="email"
-            defaultValue={perfil?.email}
             {...register("email")}
-            required
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            defaultValue={perfil?.password}
-            {...register("password")}
             required
             className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
@@ -168,11 +149,10 @@ export default function ActualizarUsuario() {
           <label htmlFor="role_id">Rol</label>
           <select
             id="role_id"
-            defaultValue={perfil?.role_id}
             {...register("role_id")}
             required
-            isDisabled = {perfil?.role_id === 4}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
+            disabled={isStudent}
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
           >
             <option value="">Selecciona un rol</option>
             {roles.map((rol) => (
@@ -185,11 +165,10 @@ export default function ActualizarUsuario() {
           <label htmlFor="controller_id">Controller</label>
           <select
             id="controller_id"
-            defaultValue={perfil?.student?.controller.id}
             {...register("controller_id")}
             required
-            isDisabled = {perfil?.role_id === 4}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
+            disabled={isStudent}
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
           >
             <option value="">Selecciona un Controller</option>
             {controllerList
@@ -204,11 +183,10 @@ export default function ActualizarUsuario() {
           <label htmlFor="recruiter_id">Reclutador</label>
           <select
             id="recruiter_id"
-            defaultValue={perfil?.student?.recruiter.id}
             {...register("recruiter_id")}
             required
-            isDisabled = {perfil?.role_id === 4}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
+            disabled={isStudent}
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
           >
             <option value="">Selecciona un reclutador</option>
             {recruiterList
@@ -223,11 +201,10 @@ export default function ActualizarUsuario() {
           <label htmlFor="country_id">Pais</label>
           <select
             id="country_id"
-            defaultValue={perfil?.student?.country.id}
             {...register("country_id")}
             required
-            isDisabled = {perfil?.role_id === 4}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
+            disabled={isStudent}
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
           >
             <option value="">Selecciona un país</option>
             <option value="1">Honduras</option>
@@ -238,11 +215,10 @@ export default function ActualizarUsuario() {
           <label htmlFor="school_id">Escuela</label>
           <select
             id="school_id"
-            defaultValue={perfil?.schools?.[0].id}
             {...register("schools")}
             required
-            isDisabled = {perfil?.role_id === 4}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
+            disabled={isStudent}
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
           >
             <option value="">Selecciona una escuela</option>
             {schoolsList.map((school) => (
@@ -254,7 +230,7 @@ export default function ActualizarUsuario() {
 
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 h-[40px] rounded-md"
+            className="mt-5 bg-blue-500 text-white px-4 h-[40px] rounded-md hover:cursor-pointer"
           >
             Guardar Usuario
           </button>
