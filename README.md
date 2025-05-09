@@ -90,4 +90,5 @@ Autores del Proyecto.
 - Wilson Jacob Guerrero Chaves
 - Moises Mahonri Javier López
 - Julio César Ramirez Quezada
+- Miguel Ángel Cornejo Durand (Lider de Grupo)
 
