@@ -11,37 +11,22 @@ export async function login(request) {
 
 // esto debe estar en el archivo user
 export async function profile() {
-
-
-    try {
-        const { data } = await instance.get(`/auth/profile`)
-        return data
-        
-    } catch (error) {
-      console.log('Error en la solicitud:', error.response || error.message);
-        throw error
-    }
-
+  try {
+    const { data } = await instance.get(`/auth/profile`);
+    return data;
+  } catch (error) {
+    console.log("Error en la solicitud:", error.response || error.message);
+    throw error;
+  }
 }
 
 // para actualizar el perfil
 export async function updateprofile(data) {
-
   try {
-      const response = await instance.put(`/auth/profile`, data)
-      return response.data;  
+    const response = await instance.put(`/auth/profile`, data);
+    return response.data;
   } catch (error) {
-    console.log('Error en la solicitud:', error.response || error.message);
-      throw error
-  }
-
-}
-
-export async function services() {
-  try {
-    const { data } = await instance.get(`/services`);
-    return data;
-  } catch (error) {
+    console.log("Error en la solicitud:", error.response || error.message);
     throw error;
   }
 }
@@ -84,7 +69,7 @@ export async function deleteUsers(id) {
 
 export async function update(request, id) {
   try {
-    const { status } = await instance.put(`/services/${id}`, request);
+    const { status } = await instance.put(`/users/${id}`, request);
     return status;
   } catch (error) {
     throw error;
@@ -105,28 +90,6 @@ export async function changePassword(data) {
   try {
     const { status } = await instance.put("/auth/change-password", data);
     return status;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function registroHoras(data) {
-  try {
-    const { status } = await instance.post("/services", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return status;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function getDocument(id) {
-  try {
-    const { data } = await instance.get(`/services/${id}`);
-    return data;
   } catch (error) {
     throw error;
   }

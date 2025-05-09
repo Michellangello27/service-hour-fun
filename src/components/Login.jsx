@@ -1,7 +1,6 @@
 import { login } from "../axios/auth/login";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-/* import Cookies from "js-cookie"; // Import js-cookie */
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,16 +14,7 @@ export default function Login() {
     try {
       const data = await login(requestData);
       if (data.status === "success") {
-        navigate("/")
-        /* const token = Cookies.get("token");
-        console.log(token)
-        if (token) {
-          navigate("/"); // Redirect to the home page
-        } else {
-          setErrorMessage(
-            "Ocurrió un error inesperado. Por favor, inténtalo más tarde."
-          );
-        } */
+        navigate("/");
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {

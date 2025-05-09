@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { services, users } from "../axios/auth/login";
+import { users, findUser } from "../axios/auth/login";
 import { amountHours, reportedHours, aproveHours } from "../js/amountHours";
+import { services } from "../axios/servicios/servicios";
 
 export default function StudentsInfo() {
   const [data, setData] = useState([]);
   const [dataServices, setDataServices] = useState([]);
+  const [studentSchools, setStudentSchools] = useState({});
 
   useEffect(() => {
     users()
@@ -13,27 +15,42 @@ export default function StudentsInfo() {
           (user) => user.role_id === 4 && user.status === "activo"
         );
         setData(rsFiltered);
+
+        fetchStudentSchools(rsFiltered);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
 
     services()
       .then((rs) => setDataServices(rs))
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.error(error));
   }, []);
 
-  console.log(data);
-  console.log(dataServices);
+  const fetchStudentSchools = async (students) => {
+    const schools = {};
+    for (const student of students) {
+      try {
+        const studentData = await findUser(student.id);
+        schools[student.id] = studentData.schools
+          .map((school) => school.name)
+          .join(", ");
+      } catch (error) {
+        console.error(
+          `Error fetching schools for student ${student.id}:`,
+          error
+        );
+        schools[student.id] = "N/A";
+      }
+    }
+    setStudentSchools(schools);
+  };
 
-  // Helper function to calculate hours for each student
   const calculateHours = (studentId) => {
     const studentServices = dataServices.filter(
       (service) => service.user.id === studentId
     );
     const approved = aproveHours(studentServices);
     const reported = reportedHours(studentServices);
-    const necessary = amountHours(studentServices[0]?.category?.name || ""); // Assuming category name determines necessary hours
+    const necessary = amountHours(studentServices[0]?.category?.name || "");
     return `${approved}/${reported}/${necessary}`;
   };
 
@@ -50,9 +67,6 @@ export default function StudentsInfo() {
               <th className="border border-gray-300 px-4 py-2 text-left">
                 Carrera
               </th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                Nivel
-              </th>
               <th className="border border-gray-300 px-4 py-2 text-center">
                 Horas de Servicio (A/R/N)
               </th>
@@ -67,10 +81,7 @@ export default function StudentsInfo() {
                   } ${student.s_lastname || ""}`}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {student.career || "N/A"}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {student.level || "N/A"}
+                  {studentSchools[student.id] || "Loading..."}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-center">
                   {calculateHours(student.id)}

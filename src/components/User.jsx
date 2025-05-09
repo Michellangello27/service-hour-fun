@@ -9,10 +9,8 @@ export default function User() {
   useEffect(() => {
     findUser(id)
       .then((rs) => setData(rs))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, [id]);
-  console.log(data);
-
   return (
     <div>
       <h1>User</h1>
