@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { registroHoras } from "../axios/auth/login";
+import { registroHoras } from "../axios/servicios/servicios";
 import { useNavigate } from "react-router";
 
 export default function RegistroHorasForm({ setShowModal }) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { services, users, findUser } from "../axios/auth/login";
+import { users, findUser } from "../axios/auth/login";
 import { amountHours, reportedHours, aproveHours } from "../js/amountHours";
+import { services } from "../axios/servicios/servicios";
 
 export default function StudentsInfo() {
   const [data, setData] = useState([]);
