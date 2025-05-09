@@ -61,7 +61,12 @@ export async function updateUsers(id, requestData) {
 export async function getRoles() {
   try {
     const { data } = await instance.get(`/roles`);
-    
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getUserByRol(id) {
   try {
     const { data } = await instance.get(`/users?r=${id}`);
@@ -70,7 +75,7 @@ export async function getUserByRol(id) {
     throw error;
   }
 }
-    
+
 export async function getSchoolsList() {
   try {
     const { data } = await instance.get(`/schools`);
