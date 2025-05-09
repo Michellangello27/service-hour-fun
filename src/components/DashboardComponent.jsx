@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ProfileContext } from "./layouts/AuthLayout";
-import { services } from "../axios/auth/login";
+import { services } from "../axios/servicios/servicios";
 import { amountHours, aproveHours, reportedHours } from "../js/amountHours";
 import {
   Bar,
@@ -155,9 +155,9 @@ bg-blue-50  text-black w-full h-full"
               <CardHoras item={servicesInfo[servicesInfo?.length - 1]} />
             </div>
             <div className="flex gap-5 flex-col-reverse justify-evenly">
-              <div className="   flex gap-3 justify-around items-center">
+              <div className="flex gap-3 justify-around items-center">
                 <div
-                  className=" border w-[30%]  h-[150px]  rounded-3xl flex flex-wrap justify-center items-center py-2 px-1 border-blue-300
+                  className=" border w-[30%]  h-[210px]  rounded-3xl flex flex-wrap justify-center items-center py-2 px-1 border-blue-300
 bg-blue-50  text-black"
                 >
                   <p className="">Horas de servicio Requeridas</p>
@@ -166,7 +166,7 @@ bg-blue-50  text-black"
                   </p>
                 </div>
                 <div
-                  className=" border w-[30%]  h-[150px]  rounded-3xl flex flex-wrap justify-center items-center py-2 px-1 border-blue-300
+                  className=" border w-[30%]  h-[210px]  rounded-3xl flex flex-wrap justify-center items-center py-2 px-1 border-blue-300
 bg-blue-50  text-black"
                 >
                   <p>Horas de servicio Registradas</p>
@@ -175,7 +175,7 @@ bg-blue-50  text-black"
                   </p>
                 </div>
                 <div
-                  className=" border w-[30%]  h-[150px]  rounded-3xl flex flex-wrap justify-center items-center py-2 px-1 border-blue-300
+                  className=" border w-[30%]  h-[210px]  rounded-3xl flex flex-wrap justify-center items-center py-2 px-1 border-blue-300
 bg-blue-50  text-black"
                 >
                   <p>Horas de servicio autorizadas</p>
@@ -186,7 +186,7 @@ bg-blue-50  text-black"
               </div>
               <div className=" ">
                 <div
-                  className="border  h-[150px] rounded-3xl flex flex-col justify-center items-center gap-2 py-5 px-10  border-blue-300
+                  className="border  h-[250px] rounded-3xl flex flex-col justify-center items-center gap-2 py-5 px-10  border-blue-300
 bg-blue-50  text-black"
                 >
                   <p className="text-2xl text-center"> Te faltan</p>
@@ -202,10 +202,10 @@ bg-blue-50  text-black"
       )}
 
       {info.role_id === 1 && (
-        <div className="flex flex-wrap  justify-center">
-          <div className="border w-[150px] h-[150px] rounded-md bg-white flex flex-col justify-center items-center shadow-2xl">
-            <h2 className="text-[20px] text-center">Reportes por revisar:</h2>
-            <p className="text-[35px]">{pendientes}</p>
+        <div className="flex flex-wrap gap-3 justify-center">
+          <div className="border w-[300px] h-[300px] rounded-md bg-white flex flex-col justify-center items-center shadow-2xl">
+            <h2 className="text-[30px] text-center">Reportes por revisar:</h2>
+            <p className="text-[70px]">{pendientes}</p>
           </div>
 
           <ResponsiveContainer
@@ -245,6 +245,36 @@ bg-blue-50  text-black"
             </BarChart>
           </ResponsiveContainer>
 
+          <div className="border w-[300px] h-[300px] rounded-md bg-white flex flex-col justify-center items-center gap-7 p-2.5 shadow-2xl">
+            <h2 className="text-[20px] text-center">
+              Relacion de Reportes - Horas
+            </h2>
+            <div className="flex flex-col items-center">
+              <table className="border border-gray-400   px-4 py-4">
+                <thead className="bg-gray-200 px-4 py-2 h-10 gap-8">
+                  <tr className="border border-gray-400">
+                    <th>Tipo de servicio</th>
+                    <th className="ml-2 md:ml-4">Horas Reportadas</th>
+                    <th className="ml-2 md:ml-4">Reportes Subidos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data3.map((item) => {
+                    return (
+                      <tr
+                        key={item.name}
+                        className="border border-gray-400 text-center"
+                      >
+                        <td>{item.name}</td>
+                        <td>{item["horas reportadas"]}</td>
+                        <td>{item["reportes subidos"]}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
           <ResponsiveContainer
             width="60%"
             height={300}
@@ -283,36 +313,6 @@ bg-blue-50  text-black"
             </BarChart>
           </ResponsiveContainer>
 
-          <div className="border w-[300px] h-fit rounded-md bg-white flex flex-col justify-center items-center gap-7 p-2.5 shadow-2xl">
-            <h2 className="text-[20px] text-center">
-              Relacion de Reportes - Horas
-            </h2>
-            <div className="flex flex-col items-center">
-              <table className="border border-gray-400   px-4 py-4">
-                <thead className="bg-gray-200 px-4 py-2 h-10 gap-8">
-                  <tr className="border border-gray-400">
-                    <th>Tipo de servicio</th>
-                    <th className="ml-2 md:ml-4">Horas Reportadas</th>
-                    <th className="ml-2 md:ml-4">Reportes Subidos</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data3.map((item) => {
-                    return (
-                      <tr
-                        key={item.name}
-                        className="border border-gray-400 text-center"
-                      >
-                        <td>{item.name}</td>
-                        <td>{item["horas reportadas"]}</td>
-                        <td>{item["reportes subidos"]}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
           <div
             role="prichart"
             className="border   rounded-3xl  flex flex-wrap  justify-center items-center gap-0 py-5 px-10  bg-white  text-black"

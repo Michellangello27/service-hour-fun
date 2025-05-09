@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { editarActividad } from "../axios/auth/login";
+import { editarActividad } from "../axios/servicios/servicios";
 import { useNavigate } from "react-router";
 
 export default function EditarActividadForm({ setShowModalEdit, item }) {
