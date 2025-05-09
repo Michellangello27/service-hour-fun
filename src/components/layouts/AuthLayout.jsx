@@ -111,6 +111,8 @@ export default function AuthLayout() {
 const menuOptions = [
   { name: "Home", roles: ["Admin", "Student"], link: "/" },
   { name: "Horas de Servicio", roles: ["Student"], link: "/horas-servicio" },
+
   { name: "Profile", roles: ["Admin", "Student"], link: "/profile" },
   { name: "Estudiantes", roles: ["Admin"], link: "/users" },
+
 ];
