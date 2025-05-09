@@ -61,12 +61,7 @@ export async function updateUsers(id, requestData) {
 export async function getRoles() {
   try {
     const { data } = await instance.get(`/roles`);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
+    
 export async function getUserByRol(id) {
   try {
     const { data } = await instance.get(`/users?r=${id}`);
@@ -75,7 +70,7 @@ export async function getUserByRol(id) {
     throw error;
   }
 }
-
+    
 export async function getSchoolsList() {
   try {
     const { data } = await instance.get(`/schools`);
@@ -88,6 +83,23 @@ export async function getSchoolsList() {
 export async function servicesId(id) {
   try {
     const { data } = await instance.get(`/services/${id}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function revisionHorasServicio(request, id) {
+  try {
+    const { data } = await instance.patch(`/services/${id}/review`, request);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getCountries() {
+  try {
+    const { data } = await instance.get(`/countries`);
     return data;
   } catch (error) {
     throw error;
