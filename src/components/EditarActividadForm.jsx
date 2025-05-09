@@ -25,7 +25,7 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
         navigate(0);
       }
     } catch (error) {
-      console.log("Error al editar la actividad:", error);
+      console.error("Error al editar la actividad:", error);
     }
   }
 

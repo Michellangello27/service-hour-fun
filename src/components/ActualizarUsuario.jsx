@@ -30,8 +30,7 @@ export default function ActualizarUsuario({
     try {
       requestData.schools = [requestData.schools];
 
-      const status = await update(requestData, userId); // usa `update()` con id correspondiente
-
+      const status = await update(requestData, userId);
       if (status === 200 || status === 201) {
         alert("Usuario actualizado con éxito");
         if (idEditProfile) fetchData();

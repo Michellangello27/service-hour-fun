@@ -15,7 +15,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
   const [schoolsList, setSchoolsList] = useState([]);
   const [recruiterList, setRecruiterList] = useState([]);
   const [countriesList, setCountriesList] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(""); // State to store error message
+  const [errorMessage, setErrorMessage] = useState("");
   const selectedRoleId = watch("role_id");
 
   async function handleUserCreate(requestData) {
@@ -35,7 +35,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
         error.response.data &&
         error.response.data.message
       ) {
-        setErrorMessage(error.response.data.message); // Set the error message from the server
+        setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage(
           "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."

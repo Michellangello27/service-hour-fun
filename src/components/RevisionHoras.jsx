@@ -4,20 +4,16 @@ import { useForm } from "react-hook-form";
 
 export default function RevisionHoras({ item, setToggleReview, fetchData }) {
   const { register, handleSubmit } = useForm();
-
   const handleReview = async (requestData) => {
-
-
     try {
       const { status } = await revisionHorasServicio(requestData, item.id);
       if (status === "success") {
         alert("Actividad revisada con éxito");
         setToggleReview(false);
-        fetchData()
-
+        fetchData();
       }
     } catch (error) {
-      console.log("Error al revisar:", error);
+      console.error("Error al revisar:", error);
     }
   };
   return (

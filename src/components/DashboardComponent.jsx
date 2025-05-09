@@ -28,8 +28,6 @@ export default function DashboardComponent() {
 
   const info = data?.data;
 
-  // console.log(info)
-
   const amountHourschool = amountHours(info?.schools?.[0]?.name || "");
 
   const [servicesInfo, setServicesInfo] = useState([]);
@@ -41,10 +39,7 @@ export default function DashboardComponent() {
 
   const reportHoursCounter = reportedHours(servicesInfo);
 
-  const masUsada = aLotServiceType(servicesInfo);
-
   const approveHours = aproveHours(servicesInfo);
-  // console.log(servicesInfo[servicesInfo.length - 1])
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const COLORS2 = ["#FFBB28", "#FF8042", "#0088FE", "#00C49F"];
@@ -63,8 +58,6 @@ export default function DashboardComponent() {
       value: amountHourschool - approveHours,
     },
   ];
-
-  // console.log(servicesInfo)
 
   const pendientes = pendingReportsAmount(servicesInfo, "Pending");
 

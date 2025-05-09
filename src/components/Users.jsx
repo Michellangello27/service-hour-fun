@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  deleteUsers,
-  users,
-  servicesIdUser,
-  getRoles,
-} from "../axios/users/users";
+import { deleteUsers, users, getRoles } from "../axios/users/users";
 import HorasServicio from "./HorasServicio";
-import { set } from "react-hook-form";
+
 import NewContactForm from "./NewContactForm";
 import ActualizarUsuario from "./ActualizarUsuario";
 import { services } from "../axios/servicios/servicios";
@@ -14,18 +9,15 @@ import { services } from "../axios/servicios/servicios";
 export default function Users() {
   const [data, setData] = useState([]);
   const [srv, setSrv] = useState([]);
-
-  const [toggleRequired, setToggleRequired] = useState(false)
-  const [reviewUser, setReviewUser] = useState("")
-  const [createUserToggle, setCreateUserToggle] = useState(false)
-  const [taskStatus, setTaskStatus] = useState("all")
-  const [inputFilter, setInputFilter] = useState("")
-  const [filterRole, setFilterRole] = useState("")
-  const [filterStatus, setFilterStatus] = useState("activo")
-  const [rolesList, setRolesList] = useState([])
-  const [toggleEditProfile, setToggleEditProfile] = useState(false)
-  const [idEditProfile, setIdEditProfile] = useState("")
-
+  const [toggleRequired, setToggleRequired] = useState(false);
+  const [reviewUser, setReviewUser] = useState("");
+  const [createUserToggle, setCreateUserToggle] = useState(false);
+  const [inputFilter, setInputFilter] = useState("");
+  const [filterRole, setFilterRole] = useState("");
+  const [filterStatus, setFilterStatus] = useState("activo");
+  const [rolesList, setRolesList] = useState([]);
+  const [toggleEditProfile, setToggleEditProfile] = useState(false);
+  const [idEditProfile, setIdEditProfile] = useState("");
 
   function handleInput(e) {
     setInputFilter(e.target.value);
@@ -38,13 +30,13 @@ export default function Users() {
   function fetchData() {
     users()
       .then((rs) => setData(rs))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }
 
   useEffect(() => {
     services()
       .then((srv) => setSrv(srv))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
   function handleToggleRequired(e) {
@@ -55,16 +47,16 @@ export default function Users() {
   useEffect(() => {
     getRoles()
       .then((rl) => setRolesList(rl))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
   function handleDelete(e) {
     deleteUsers(e.target.id).then((status) => {
       if (status) {
-        console.log("Usuario eliminado correctamente");
+        console.error("Usuario eliminado correctamente");
         fetchData();
       } else {
-        console.log("Error al eliminar el usuario");
+        console.error("Error al eliminar el usuario");
       }
     });
   }

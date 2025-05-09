@@ -16,7 +16,6 @@ export default function CardHoras({ item }) {
   async function handleLoad(id) {
     try {
       const data = await load(id);
-      console.log(data);
       const blob = new Blob([data], { type: "application/pdf" });
       const url = URL.createObjectURL(data);
       window.open(url, "_blank");
