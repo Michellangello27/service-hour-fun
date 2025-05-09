@@ -5,7 +5,7 @@ import { load, services } from "../axios/auth/login";
 
 export default function CardHoras({ item }) {
   const [showModalEdit, setShowModalEdit] = useState(false);
-  const { amount_reported, description, category, status, evidence } =
+  const { amount_reported, description, category, status, evidence, comment } =
     item || {};
   if (!item || !item.category) {
     return (
@@ -60,10 +60,19 @@ export default function CardHoras({ item }) {
         <strong>Estado:</strong>
       </p>
       <p>{status}</p>
+
+      {status !== "Pending" && (
+        <>
+          <p>
+            <strong>Observación:</strong>
+          </p>
+          <p>{comment}</p>
+        </>
+      )}
       <div className="flex justify-center  w-full ">
         {/* Boton Editar */}
         <button
-          className="w-90/100 my-2 cursor-pointer border border-blue-700 rounded-md bg-violet-200 p-1 text-black hover:bg-violet-300 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+          className="w-90/100 my-2 cursor-pointer border border-blue-700 rounded-md bg-violet-200 p-1 text-black hover:bg-[#A21CAF] hover:text-white disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
           disabled={status !== "Pending"}
           onClick={() => setShowModalEdit(true)}
         >
@@ -72,7 +81,12 @@ export default function CardHoras({ item }) {
       </div>
       {/* modal editar actividad */}
       {showModalEdit && (
-        <EditarActividadForm setShowModalEdit={setShowModalEdit} item={item} />
+        <div className="fixed inset-0 z-50 bg-gray-900/75 flex items-center justify-center">
+            <EditarActividadForm
+              setShowModalEdit={setShowModalEdit}
+              item={item}
+            />
+        </div>
       )}
     </div>
   );

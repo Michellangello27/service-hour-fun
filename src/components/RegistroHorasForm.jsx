@@ -25,7 +25,7 @@ export default function RegistroHorasForm({ setShowModal }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center rounded-lg">
-      <div className="bg-indigo-50 p-6 rounded-lg w-80 md:w-96">
+      <div className="bg-indigo-100 p-6 rounded-lg w-80 md:w-96">
         <h2 className="text-lg font-bold mb-4">Registrar Nueva Actividad</h2>
         <form
           onSubmit={handleCreate}
