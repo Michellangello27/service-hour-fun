@@ -71,8 +71,7 @@ export default function Users() {
 
   function handleEditProfile(e) {
     setToggleEditProfile(true);
-    setIdEditProfile(e.target.value)
-
+    setIdEditProfile(e.target.id);
   }
 
   function handleRoleFilter(e) {
@@ -225,15 +224,16 @@ export default function Users() {
             />
           </div>}
 
-        {toggleEditProfile === true &&  //jacob modificar componente
-
-          <div role="NewContact" className="border absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-[550px] h-[500px] bg-white overflow-x-auto ">
-            <ActualizarUsuario
-              idEditProfile={idEditProfile}
-              setToggleEditProfile={setToggleEditProfile}
-              
-            />
-          </div>}
+        {toggleEditProfile && (
+          <div className="fixed inset-0 z-50 bg-gray-900/75 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-xl w-[90%] max-w-[550px] max-h-[90vh] overflow-y-auto p-6">
+              <ActualizarUsuario
+                idEditProfile={idEditProfile}
+                setToggleEditProfile={setToggleEditProfile}
+              />
+            </div>
+          </div>
+        )}
 
 
 
