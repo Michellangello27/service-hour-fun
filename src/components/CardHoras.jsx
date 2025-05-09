@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useState } from "react";
 import EditarActividadForm from "./EditarActividadForm";
-import { load, services } from "../axios/auth/login";
+import { load } from "../axios/servicios/servicios";
 
 export default function CardHoras({ item }) {
   const [showModalEdit, setShowModalEdit] = useState(false);
@@ -82,10 +81,10 @@ export default function CardHoras({ item }) {
       {/* modal editar actividad */}
       {showModalEdit && (
         <div className="fixed inset-0 z-50 bg-gray-900/75 flex items-center justify-center">
-            <EditarActividadForm
-              setShowModalEdit={setShowModalEdit}
-              item={item}
-            />
+          <EditarActividadForm
+            setShowModalEdit={setShowModalEdit}
+            item={item}
+          />
         </div>
       )}
     </div>

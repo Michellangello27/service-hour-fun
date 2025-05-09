@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import RegistroHorasForm from "./RegistroHorasForm";
 import CardHoras from "./CardHoras";
-import { services } from "../axios/auth/login";
+import { services } from "../axios/servicios/servicios";
 
 export default function RegistroHorasStudent() {
   const [showModal, setShowModal] = useState(false);
