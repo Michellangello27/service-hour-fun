@@ -28,11 +28,12 @@ export default function ActualizarUsuario({
 
       if (status === 200 || status === 201) {
         alert("Usuario actualizado con éxito");
-        fetchData();
+        if (idEditProfile) fetchData();
         if (setToggleEditProfile) setToggleEditProfile(false);
       }
     } catch (error) {
-      alert("Error al actualizar usuario:", error);
+      console.error(error)
+      alert("Error al actualizar usuario");
     }
   }
 
