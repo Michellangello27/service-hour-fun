@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   createUser,
   getCountries,
@@ -15,57 +15,68 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
   const [schoolsList, setSchoolsList] = useState([]);
   const [recruiterList, setRecruiterList] = useState([]);
   const [countriesList, setCountriesList] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(""); // State to store error message
   const selectedRoleId = watch("role_id");
 
   async function handleUserCreate(requestData) {
     try {
       requestData.schools = [requestData.schools];
-      console.log(requestData);
 
       const data = await createUser(requestData);
-      console.log(data);
       if (data === 201) {
         setCreateUserToggle(false);
         fetchData();
         alert("Usuario registrado con éxito");
       }
     } catch (error) {
-      console.log("Error al registrar usuario:", error);
+      console.error("Error al registrar usuario", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setErrorMessage(error.response.data.message); // Set the error message from the server
+      } else {
+        setErrorMessage(
+          "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
+        );
+      }
     }
   }
 
   useEffect(() => {
     getRoles()
       .then((rol) => setRoles(rol))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
     getCountries()
       .then((ct) => setCountriesList(ct))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
     getUserByRol(2) // obtener rol de controller
       .then((contro) => setControllerList(contro))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
     getSchoolsList() // obtener lista de escuelas
       .then((sch) => setSchoolsList(sch))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
+
   useEffect(() => {
     getUserByRol(3) // obtener rol de reclutador
       .then((rec) => setRecruiterList(rec))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
   return (
     <div>
-      <div className="flex flex-col border  justify-center items-center bg-white w-full h-full py-5  relative">
+      <div className="flex flex-col border justify-center items-center bg-white w-full h-full py-5 relative">
         <div className="absolute top-2 right-4">
           <figure
             className="size-6 cursor-pointer"
@@ -89,6 +100,14 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
         </div>
 
         <h2 className="font-semibold text-3xl">Nuevo Usuario</h2>
+
+        {/* Display error message */}
+        {errorMessage && (
+          <div className="bg-red-100 text-red-700 px-4 py-2 rounded-md mt-4 mb-2 w-[90%] max-w-[450px]">
+            {errorMessage}
+          </div>
+        )}
+
         <form
           className="flex flex-wrap border gap-1 mt-4 w-[90%] max-w-[450px] justify-center bg-white shadow-lg p-6 rounded-md"
           onSubmit={handleSubmit(handleUserCreate)}
@@ -99,7 +118,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             id="f_name"
             {...register("f_name")}
             required
-            className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
 
           <label htmlFor="s_name">Segundo Nombre</label>
@@ -107,7 +126,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             type="text"
             id="s_name"
             {...register("s_name")}
-            className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
 
           <label htmlFor="f_lastname">Primer Apellido</label>
@@ -116,7 +135,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             id="f_lastname"
             {...register("f_lastname")}
             required
-            className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
 
           <label htmlFor="s_lastname">Segundo Apellido</label>
@@ -124,7 +143,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             type="text"
             id="s_lastname"
             {...register("s_lastname")}
-            className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
 
           <label htmlFor="email">Email</label>
@@ -133,7 +152,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             id="email"
             {...register("email")}
             required
-            className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
 
           <label htmlFor="password">Contraseña</label>
@@ -142,7 +161,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             id="password"
             {...register("password")}
             required
-            className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
 
           <label htmlFor="role_id">Rol</label>
@@ -150,7 +169,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             id="role_id"
             {...register("role_id")}
             required
-            className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           >
             <option value="">Selecciona un rol</option>
             {roles.map((rol) => (
@@ -160,6 +179,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             ))}
           </select>
 
+          {/* Additional fields for non-admin roles */}
           {selectedRoleId !== "1" && (
             <>
               <label htmlFor="controller_id">Controller</label>
@@ -167,7 +187,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
                 id="controller_id"
                 {...register("controller_id")}
                 required
-                className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+                className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
               >
                 <option value="">Selecciona un Controller</option>
                 {controllerList
@@ -178,12 +198,13 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
                     </option>
                   ))}
               </select>
+
               <label htmlFor="recruiter_id">Reclutador</label>
               <select
                 id="recruiter_id"
                 {...register("recruiter_id")}
                 required
-                className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+                className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
               >
                 <option value="">Selecciona un reclutador</option>
                 {recruiterList
@@ -194,15 +215,15 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
                     </option>
                   ))}
               </select>
+
               <label htmlFor="country_id">Pais</label>
               <select
                 id="country_id"
                 {...register("country_id")}
                 required
-                className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+                className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
               >
                 <option value="">Selecciona un país</option>
-
                 {countriesList.map((country) => (
                   <option key={country.id} value={country.id}>
                     {country.name}
@@ -215,7 +236,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
                 id="school_id"
                 {...register("schools")}
                 required
-                className="border border-gray-400 px-4  mb-2 w-full h-10 rounded-md"
+                className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
               >
                 <option value="">Selecciona una escuela</option>
                 {schoolsList.map((school) => (
@@ -229,7 +250,7 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
 
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 h-[40px]  rounded-md"
+            className="bg-blue-500 text-white mt-4 px-4 h-[40px] rounded-md hover:cursor-pointer"
           >
             Crear Usuario
           </button>
