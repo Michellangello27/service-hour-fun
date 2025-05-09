@@ -8,7 +8,7 @@ import RevisionHoras from "./RevisionHoras";
 export default function HorasServicio({ reviewUser, setToggleRequired }) {
   const [userData, setUserData] = useState([]);
   const [toggleReview, setToggleReview] = useState(false);
-  const [reviewUserId, setReviewUserId] = useState(null);
+  const [reviewUserId, setReviewUserId] = useState(1);
   const [serviceData, setServiceData] = useState([]);
   const [reviewData, setReviewData] = useState([]);
 
@@ -19,6 +19,10 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
   }, []);
 
   useEffect(() => {
+    fetchData(reviewUser);
+  }, []);
+
+  function fetchData(reviewUser) {
     servicesIdUser(reviewUser)
       .then((data) => {
         setServiceData(data); // Guardar los datos de los servicios en el estado
@@ -26,7 +30,17 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
       .catch((error) => {
         console.error("Error al obtener los datos de los servicios:", error);
       });
-  }, []);
+  }
+
+  // useEffect(() => {
+  //   servicesIdUser(reviewUser)
+  //     .then((data) => {
+  //       setServiceData(data); // Guardar los datos de los servicios en el estado
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error al obtener los datos de los servicios:", error);
+  //     });
+  // }, []);
 
   function handleToggleReview(e) {
     setToggleReview(true);
@@ -185,7 +199,11 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
             </figure>
             <CardHoras item={reviewData} setToggleReview={setToggleReview} />
 
-            <RevisionHoras item={reviewData} />
+            <RevisionHoras
+              item={reviewData}
+              setToggleReview={setToggleReview}
+              fetchData={fetchData}
+            />
           </div>
         )}
       </div>

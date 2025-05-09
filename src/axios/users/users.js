@@ -95,7 +95,7 @@ export async function servicesId(id) {
 }
 export async function revisionHorasServicio(request, id) {
   try {
-    const { data } = await instance.patch(`/services/${id}/review`, request);
+    const { data } = await instance.patch(`/review/${id}`, request);
     return data;
   } catch (error) {
     throw error;
