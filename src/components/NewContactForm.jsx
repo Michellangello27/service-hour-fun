@@ -121,11 +121,11 @@ export default function NewContactForm({ setCreateUserToggle, fetchData }) {
             className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
 
-          <label htmlFor="s_name">Segundo Nombre</label>
+          <label htmlFor="m_name">Segundo Nombre</label>
           <input
             type="text"
-            id="s_name"
-            {...register("s_name")}
+            id="m_name"
+            {...register("m_name")}
             className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md"
           />
 

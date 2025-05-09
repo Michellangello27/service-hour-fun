@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getRoles, getSchoolsList, getUserByRol } from "../axios/users/users";
+import {
+  getCountries,
+  getRoles,
+  getSchoolsList,
+  getUserByRol,
+} from "../axios/users/users";
 import { findUser, profile, update } from "../axios/auth/login";
 
 export default function ActualizarUsuario({
@@ -14,6 +19,7 @@ export default function ActualizarUsuario({
   const [schoolsList, setSchoolsList] = useState([]);
   const [recruiterList, setRecruiterList] = useState([]);
   const [perfil, setPerfil] = useState({});
+  const [countriesList, setCountriesList] = useState([]);
   const userId = idEditProfile || perfil?.id;
   const isStudent = perfil?.role_id === 4;
   const isAdmin = perfil?.role_id === 1;
@@ -56,6 +62,10 @@ export default function ActualizarUsuario({
   useEffect(() => {
     getRoles()
       .then((rol) => setRoles(rol))
+      .catch((error) => console.error(error));
+
+    getCountries()
+      .then((ct) => setCountriesList(ct))
       .catch((error) => console.error(error));
 
     getUserByRol(2) // Obtener lista de controladores
@@ -226,9 +236,11 @@ export default function ActualizarUsuario({
                 className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
               >
                 <option value="">Selecciona un país</option>
-                <option value="1">Honduras</option>
-                <option value="2">El Salvador</option>
-                <option value="3">Mexico</option>
+                {countriesList.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country.name}
+                  </option>
+                ))}
               </select>
 
               <label htmlFor="school_id">Escuela</label>
