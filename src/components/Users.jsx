@@ -14,18 +14,18 @@ import { services } from "../axios/servicios/servicios";
 export default function Users() {
   const [data, setData] = useState([]);
   const [srv, setSrv] = useState([]);
-  const [toggleRequired, setToggleRequired] = useState(false);
-  const [reviewUser, setReviewUser] = useState("");
-  const [createUserToggle, setCreateUserToggle] = useState(false);
-  const [taskStatus, setTaskStatus] = useState("all");
-  const [inputFilter, setInputFilter] = useState("");
-  const [filterRole, setFilterRole] = useState("");
-  const [filterStatus, setFilterStatus] = useState("activo");
-  const [rolesList, setRolesList] = useState([]);
-  const [toggleEditProfile, setToggleEditProfile] = useState(false);
-  const [idEditProfile, setIdEditProfile] = useState("");
 
-  const atentionRequired = [];
+  const [toggleRequired, setToggleRequired] = useState(false)
+  const [reviewUser, setReviewUser] = useState("")
+  const [createUserToggle, setCreateUserToggle] = useState(false)
+  const [taskStatus, setTaskStatus] = useState("all")
+  const [inputFilter, setInputFilter] = useState("")
+  const [filterRole, setFilterRole] = useState("")
+  const [filterStatus, setFilterStatus] = useState("activo")
+  const [rolesList, setRolesList] = useState([])
+  const [toggleEditProfile, setToggleEditProfile] = useState(false)
+  const [idEditProfile, setIdEditProfile] = useState("")
+
 
   function handleInput(e) {
     setInputFilter(e.target.value);
