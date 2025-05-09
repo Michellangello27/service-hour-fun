@@ -4,41 +4,59 @@ import {
   getRoles,
   getSchoolsList,
   getUserByRol,
-  updateUsers,
 } from "../axios/users/users";
-import { profile } from "../axios/auth/login";
+import { findUser, profile, update } from "../axios/auth/login";
 
-export default function ActualizarUsuario() {
-  const { register, handleSubmit, reset } = useForm();
+export default function ActualizarUsuario({
+  idEditProfile,
+  setToggleEditProfile,
+}) {
+  const { register, handleSubmit, reset, watch } = useForm();
   const [roles, setRoles] = useState([]);
   const [controllerList, setControllerList] = useState([]);
   const [schoolsList, setSchoolsList] = useState([]);
   const [recruiterList, setRecruiterList] = useState([]);
   const [perfil, setPerfil] = useState({});
-  const userId = perfil?.id;
+  const userId = idEditProfile || perfil?.id;
   const isStudent = perfil?.role_id === 4;
+  const isAdmin = perfil?.role_id === 1;
+  const selectedRoleId = watch("role_id");
 
   // Función para manejar la actualización del usuario
   async function handleUserUpdate(requestData) {
     try {
-      requestData.schools = [requestData.schools]; // Asegurarse de que `schools` sea un array
+      requestData.schools = [requestData.schools];
+      console.log("Datos enviados para actualizar:", requestData);
 
-      const status = await updateUsers(userId, requestData); // Llamar a la función `updateUsers`
+      const status = await update(requestData, userId); // usa `update()` con id correspondiente
+
       if (status === 200 || status === 201) {
-        // setUpdateUserToggle(false);
         alert("Usuario actualizado con éxito");
+        if (setToggleEditProfile) setToggleEditProfile(false);
       }
     } catch (error) {
-      alert("Error al actualizar usuario:", error);
+      console.error("Error al actualizar usuario:", error);
+      alert("Error al actualizar usuario");
     }
   }
 
   // Cargar roles, controladores, reclutadores y escuelas
   useEffect(() => {
-    profile()
-      .then((perfil) => setPerfil(perfil))
-      .catch((error) => console.error(error));
+    const fetchPerfil = async () => {
+      try {
+        const data = idEditProfile
+          ? await findUser(idEditProfile)
+          : await profile();
+        setPerfil(data);
+      } catch (error) {
+        console.error("Error al cargar el perfil:", error);
+      }
+    };
 
+    fetchPerfil();
+  }, [idEditProfile]);
+
+  useEffect(() => {
     getRoles()
       .then((rol) => setRoles(rol))
       .catch((error) => console.error(error));
@@ -79,7 +97,7 @@ export default function ActualizarUsuario() {
         <div className="absolute top-2 right-4">
           <figure
             className="size-6 cursor-pointer"
-            // onClick={() => setUpdateUserToggle(false)}
+            onClick={() => setToggleEditProfile(false)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +169,7 @@ export default function ActualizarUsuario() {
             id="role_id"
             {...register("role_id")}
             required
-            disabled={isStudent}
+            disabled={isStudent && !idEditProfile}
             className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
           >
             <option value="">Selecciona un rol</option>
@@ -162,71 +180,75 @@ export default function ActualizarUsuario() {
             ))}
           </select>
 
-          <label htmlFor="controller_id">Controller</label>
-          <select
-            id="controller_id"
-            {...register("controller_id")}
-            required
-            disabled={isStudent}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
-          >
-            <option value="">Selecciona un Controller</option>
-            {controllerList
-              .filter((controller) => controller.status === "activo")
-              .map((controller) => (
-                <option key={controller.id} value={controller.id}>
-                  {controller.full_name}
-                </option>
-              ))}
-          </select>
+          {selectedRoleId !== "1" && !isAdmin && (
+            <>
+              <label htmlFor="controller_id">Controller</label>
+              <select
+                id="controller_id"
+                {...register("controller_id")}
+                required
+                disabled={isStudent && !idEditProfile}
+                className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
+              >
+                <option value="">Selecciona un Controller</option>
+                {controllerList
+                  .filter((controller) => controller.status === "activo")
+                  .map((controller) => (
+                    <option key={controller.id} value={controller.id}>
+                      {controller.full_name}
+                    </option>
+                  ))}
+              </select>
 
-          <label htmlFor="recruiter_id">Reclutador</label>
-          <select
-            id="recruiter_id"
-            {...register("recruiter_id")}
-            required
-            disabled={isStudent}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
-          >
-            <option value="">Selecciona un reclutador</option>
-            {recruiterList
-              .filter((recruiter) => recruiter.status === "activo")
-              .map((recruiter) => (
-                <option key={recruiter.id} value={recruiter.id}>
-                  {recruiter.full_name}
-                </option>
-              ))}
-          </select>
+              <label htmlFor="recruiter_id">Reclutador</label>
+              <select
+                id="recruiter_id"
+                {...register("recruiter_id")}
+                required
+                disabled={isStudent && !idEditProfile}
+                className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
+              >
+                <option value="">Selecciona un reclutador</option>
+                {recruiterList
+                  .filter((recruiter) => recruiter.status === "activo")
+                  .map((recruiter) => (
+                    <option key={recruiter.id} value={recruiter.id}>
+                      {recruiter.full_name}
+                    </option>
+                  ))}
+              </select>
 
-          <label htmlFor="country_id">Pais</label>
-          <select
-            id="country_id"
-            {...register("country_id")}
-            required
-            disabled={isStudent}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
-          >
-            <option value="">Selecciona un país</option>
-            <option value="1">Honduras</option>
-            <option value="2">El Salvador</option>
-            <option value="3">Mexico</option>
-          </select>
+              <label htmlFor="country_id">Pais</label>
+              <select
+                id="country_id"
+                {...register("country_id")}
+                required
+                disabled={isStudent && !idEditProfile}
+                className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
+              >
+                <option value="">Selecciona un país</option>
+                <option value="1">Honduras</option>
+                <option value="2">El Salvador</option>
+                <option value="3">Mexico</option>
+              </select>
 
-          <label htmlFor="school_id">Escuela</label>
-          <select
-            id="school_id"
-            {...register("schools")}
-            required
-            disabled={isStudent}
-            className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
-          >
-            <option value="">Selecciona una escuela</option>
-            {schoolsList.map((school) => (
-              <option key={school.id} value={school.id}>
-                {school.name}
-              </option>
-            ))}
-          </select>
+              <label htmlFor="school_id">Escuela</label>
+              <select
+                id="school_id"
+                {...register("schools")}
+                required
+                disabled={isStudent && !idEditProfile}
+                className="border border-gray-400 px-4 mb-2 w-full h-10 rounded-md disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
+              >
+                <option value="">Selecciona una escuela</option>
+                {schoolsList.map((school) => (
+                  <option key={school.id} value={school.id}>
+                    {school.name}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
 
           <button
             type="submit"
