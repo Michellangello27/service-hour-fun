@@ -19,14 +19,10 @@ export default function Users() {
   const [toggleEditProfile, setToggleEditProfile] = useState(false)
   const [idEditProfile, setIdEditProfile] = useState("")
 
-  const atentionRequired = []
-
-
   function handleInput(e) {
 
     setInputFilter(e.target.value)
   }
-
 
   useEffect(() => {
     fetchData();

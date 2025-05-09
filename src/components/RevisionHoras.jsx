@@ -5,23 +5,23 @@ import { useForm } from "react-hook-form";
 export default function RevisionHoras({ item, setToggleReview, fetchData }) {
   const { register, handleSubmit } = useForm();
 
-  console.log(item.id);
   const handleReview = async (requestData) => {
-    console.log(requestData);
+
 
     try {
       const { status } = await revisionHorasServicio(requestData, item.id);
       if (status === "success") {
         alert("Actividad revisada con éxito");
         setToggleReview(false);
-        fetchData(item.users.id);
+        fetchData()
+
       }
     } catch (error) {
       console.log("Error al revisar:", error);
     }
   };
   return (
-    <div className="w-70 border border-gray-400 rounded-xl">
+    <div className="w-70 border border-gray-400 rounded-xl ">
       <form
         onSubmit={handleSubmit(handleReview)}
         className="flex flex-col gap-1  shadow-lg p-6 rounded-md "

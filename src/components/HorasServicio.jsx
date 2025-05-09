@@ -5,13 +5,13 @@ import { servicesId, servicesIdUser } from "../axios/users/users";
 import CardHoras from "./CardHoras";
 import RevisionHoras from "./RevisionHoras";
 
-export default function HorasServicio({ reviewUser, setToggleRequired }) {
+export default function HorasServicio({ reviewUser, setToggleRequired,fetchData }) {
   const [userData, setUserData] = useState([]);
   const [toggleReview, setToggleReview] = useState(false);
   const [reviewUserId, setReviewUserId] = useState(1);
   const [serviceData, setServiceData] = useState([]);
   const [reviewData, setReviewData] = useState([]);
-
+let idUser = reviewUser
   useEffect(() => {
     findUser(reviewUser)
       .then((rs) => setUserData(rs))
@@ -19,28 +19,19 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
   }, []);
 
   useEffect(() => {
-    fetchData(reviewUser);
+    fetchData();
   }, []);
 
-  function fetchData(reviewUser) {
-    servicesIdUser(reviewUser)
+  function fetchData() {
+    servicesIdUser(idUser)
       .then((data) => {
-        setServiceData(data); // Guardar los datos de los servicios en el estado
+        setServiceData(data); 
       })
       .catch((error) => {
         console.error("Error al obtener los datos de los servicios:", error);
       });
   }
 
-  // useEffect(() => {
-  //   servicesIdUser(reviewUser)
-  //     .then((data) => {
-  //       setServiceData(data); // Guardar los datos de los servicios en el estado
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error al obtener los datos de los servicios:", error);
-  //     });
-  // }, []);
 
   function handleToggleReview(e) {
     setToggleReview(true);
@@ -52,8 +43,7 @@ export default function HorasServicio({ reviewUser, setToggleRequired }) {
       .then((rw) => setReviewData(rw))
       .catch((error) => console.log(error));
   }, [reviewUserId]);
-
-  // console.log(reviewData)
+  
 
   return (
     <>
