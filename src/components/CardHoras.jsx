@@ -81,7 +81,12 @@ export default function CardHoras({ item }) {
       </div>
       {/* modal editar actividad */}
       {showModalEdit && (
-        <EditarActividadForm setShowModalEdit={setShowModalEdit} item={item} />
+        <div className="fixed inset-0 z-50 bg-gray-900/75 flex items-center justify-center">
+            <EditarActividadForm
+              setShowModalEdit={setShowModalEdit}
+              item={item}
+            />
+        </div>
       )}
     </div>
   );

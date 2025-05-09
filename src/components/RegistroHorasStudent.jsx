@@ -73,7 +73,11 @@ export default function RegistroHorasStudent() {
         })}
       </div>
       {/* modal formulario */}
-      {showModal && <RegistroHorasForm setShowModal={setShowModal} />}
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-gray-900/75 flex items-center justify-center">
+          <RegistroHorasForm setShowModal={setShowModal} />
+        </div>
+      )}
     </div>
   );
 }

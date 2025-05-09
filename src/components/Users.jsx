@@ -204,25 +204,29 @@ export default function Users() {
         </div>
 
         {/* <HorasServicio /> */}
-        {toggleRequired === true &&
-          <div className={` w-full h-screen absolute top-0 right-0 overflow-y-auto `}>
-            <HorasServicio
-              reviewUser={reviewUser}
-              setToggleRequired={setToggleRequired}
-              fetchData={fetchData} />
-
+        {toggleRequired && (
+          <div className="fixed inset-0 z-50 bg-gray-900/75 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-xl w-[90%] max-w-[550px] max-h-[90vh] overflow-y-auto p-6">
+              <HorasServicio
+                reviewUser={reviewUser}
+                setToggleRequired={setToggleRequired}
+                fetchData={fetchData}
+              />
+            </div>
           </div>
-        }
+        )}
 
 
-        {createUserToggle === true &&
-
-          <div role="NewContact" className="border absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-[550px] h-[500px] bg-white overflow-x-auto ">
-            <NewContactForm
-              setCreateUserToggle={setCreateUserToggle}
-              fetchData={fetchData}
-            />
-          </div>}
+        {createUserToggle && (
+          <div className="fixed inset-0 z-50 bg-gray-900/75 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-xl w-[90%] max-w-[550px] max-h-[90vh] overflow-y-auto p-6">
+              <NewContactForm
+                setCreateUserToggle={setCreateUserToggle}
+                fetchData={fetchData}
+              />
+            </div>
+          </div>
+        )}
 
         {toggleEditProfile && (
           <div className="fixed inset-0 z-50 bg-gray-900/75 flex items-center justify-center">
