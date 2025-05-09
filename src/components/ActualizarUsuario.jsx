@@ -28,11 +28,12 @@ export default function ActualizarUsuario({
 
       if (status === 200 || status === 201) {
         alert("Usuario actualizado con éxito");
-        fetchData();
+        if (idEditProfile) fetchData();
         if (setToggleEditProfile) setToggleEditProfile(false);
       }
     } catch (error) {
-      alert("Error al actualizar usuario:", error);
+      console.error(error);
+      alert("Error al actualizar usuario");
     }
   }
 
@@ -90,27 +91,29 @@ export default function ActualizarUsuario({
   return (
     <div>
       <div className="flex flex-col border justify-center items-center bg-white w-full h-full py-5 relative">
-        <div className="absolute top-2 right-4">
-          <figure
-            className="size-6 cursor-pointer"
-            onClick={() => setToggleEditProfile(false)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
+        {setToggleEditProfile && (
+          <div className="absolute top-2 right-4">
+            <figure
+              className="size-6 cursor-pointer"
+              onClick={() => setToggleEditProfile(false)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-          </figure>
-        </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </figure>
+          </div>
+        )}
 
         <h2 className="font-semibold text-3xl">Actualizar Usuario</h2>
         <form
