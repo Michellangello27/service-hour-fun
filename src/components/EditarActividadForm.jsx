@@ -43,6 +43,8 @@ export default function EditarActividadForm({ setShowModalEdit, item }) {
               type="number"
               {...register("amount_reported", { valueAsNumber: true })}
               required
+              min={0}
+              max={30}
               className="border w-full p-1 rounded"
             />
           </div>

@@ -63,7 +63,7 @@ export default function AuthLayout() {
         <aside
           className={`z-50 flex-shrink-0 ${
             showModal
-              ? "absolute top-15 right-3 w-[150px] bg-gray-500 flex flex-col items-center justify-around rounded-3xl py-5 transition-transform duration-500 ease-in-out shadow-3xl"
+              ? "absolute top-15 right-3 w-[150px] bg-[#4e6789dd] flex flex-col items-center justify-around rounded-3xl py-5 transition-transform duration-500 ease-in-out shadow-3xl"
               : "hidden md:flex  md:flex-col md:justify-center md:items-center md:w-[170px] bg-[#4e688978] h-screen "
           }`}
         >

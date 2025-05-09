@@ -2,15 +2,19 @@ import React from "react";
 import { revisionHorasServicio } from "../axios/users/users";
 import { useForm } from "react-hook-form";
 
-export default function RevisionHoras({ item }) {
+export default function RevisionHoras({ item, setToggleReview, fetchData }) {
   const { register, handleSubmit } = useForm();
+
+  console.log(item.id);
   const handleReview = async (requestData) => {
     console.log(requestData);
+
     try {
-      const status = await revisionHorasServicio(requestData, item.id);
-      console.log(status);
-      if (status === 200) {
+      const { status } = await revisionHorasServicio(requestData, item.id);
+      if (status === "success") {
         alert("Actividad revisada con éxito");
+        setToggleReview(false);
+        fetchData(item.users.id);
       }
     } catch (error) {
       console.log("Error al revisar:", error);
@@ -41,7 +45,6 @@ export default function RevisionHoras({ item }) {
         <input
           type="number"
           {...register("amount_approved", { valueAsNumber: true })}
-          required
           className="border w-full p-1 rounded"
         />
         <button
