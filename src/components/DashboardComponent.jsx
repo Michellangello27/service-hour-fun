@@ -34,6 +34,7 @@ export default function DashboardComponent() {
     // console.log(servicesInfo[servicesInfo.length - 1])
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+    const COLORS2 = ['#FFBB28', '#FF8042', '#0088FE', '#00C49F']
 
     const data02 = [
         { name: 'Horas de servicio registradas', value: reportHoursCounter },
@@ -42,7 +43,7 @@ export default function DashboardComponent() {
     ]
 
     const data01 = [
-        { name: 'Horas de servicio requeridas', value: approveHours },
+        { name: 'Horas de servicio autorizadas', value: approveHours },
 
         { name: 'Horas de servicio faltantes', value: amountHourschool - approveHours },
     ]
@@ -102,60 +103,35 @@ export default function DashboardComponent() {
 
 
 
-                        <div className='flex flex-col border  h-full rounded-2xl py-2.5  gap-1 text-[12px] items-center justify-around px-1.5 bg-[#567cbd]  text-white' >
-
-
-                            <p className=''>Haz hecho muchas actividades de tipo</p>
-                            <p role='horas esperadas' className=' text-2xl'>
-                                {masUsada?.[0]}
-                            </p>
-                            <p className=''>Te invitamos a servir de otras maneras</p>
-
-
-
-
-
-                        </div>
+                        
                         <div className="  md:w-[320px]   flex flex-col items-center">
 
                             <div className='border   rounded-3xl  flex flex-wrap  justify-center items-center gap-0 py-5 px-10  bg-[#567cbd]  text-white w-full h-full'>
-                                <div>
 
-                                    <div className='flex items-center gap-2 ' >
-                                        <div className=' w-[30px] h-[10px] bg-[#b4cc1b] ' >
-
-                                        </div>
-                                        <p>Aprobadas - Restantes </p>
-
-                                    </div>
-                                    <div className='flex items-center gap-2 ' >
-                                        <div className=' w-[30px] h-[10px] bg-[#8884d8] ' >
-
-                                        </div>
-                                        <p>Registradas - Aprobadas </p>
-
-                                    </div>
-                                </div>
 
                                 <div>
+                                    <ResponsiveContainer width={300} height={350}>
 
-                                    <PieChart width={300} height={280}>
-                                        <Pie data={data02} dataKey="value" nameKey="name" cx="50%" cy="50%"  outerRadius={50} fill="#8884d8" >
-                                        {data02.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                      ))}
 
-                                
-                                </Pie> 
-                                        <Pie data={data01} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={70} outerRadius={100} fill="#b4cc1b" label >
-                                        {data01.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                      ))}
+                                        <PieChart>
+                                            <Legend />
+                                            <Pie data={data02} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" >
+                                                {data02.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS2[index % COLORS.length]} />
+                                                ))}
 
-                                
-                                </Pie> 
-                                        <Tooltip />
-                                    </PieChart>
+
+                                            </Pie>
+                                            <Pie data={data01} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={70} outerRadius={100} fill="#b4cc1b" label >
+                                                {data01.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+
+
+                                            </Pie>
+                                            <Tooltip />
+                                        </PieChart>
+                                    </ResponsiveContainer>
                                 </div>
                             </div>
                         </div>
@@ -201,10 +177,10 @@ export default function DashboardComponent() {
                         </div>
                         <div className=" ">
 
-                            <div className='border  h-full rounded-3xl flex flex-col justify-center items-center gap-10 py-5 px-10  bg-[#567cbd]  text-white'>
-                                <p className='text-4xl text-center'> Te faltan</p>
-                                <p className='text-8xl text-red-400'>{amountHourschool - approveHours}</p>
-                                <p className='text-4xl text-center'>horas por cumplir</p>
+                            <div className='border  h-[150px] rounded-3xl flex flex-col justify-center items-center gap-2 py-5 px-10  bg-[#567cbd]  text-white'>
+                                <p className='text-2xl text-center'> Te faltan</p>
+                                <p className='text-4xl text-red-400'>{amountHourschool - approveHours}</p>
+                                <p className='text-2xl text-center'>horas por cumplir</p>
 
 
                             </div>
@@ -235,9 +211,9 @@ export default function DashboardComponent() {
                             <YAxis />
                             <Tooltip />
                             <Bar dataKey="reportes subidos" label={{ fill: 'black', fontSize: 10 }} fill="#82ca9d" >
-                            {data3.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                      ))}
+                                {data3.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
                             </Bar>
                             <Legend align='center' verticalAlign='top' />
                         </BarChart>
@@ -255,9 +231,9 @@ export default function DashboardComponent() {
                             <YAxis />
                             <Tooltip />
                             <Bar dataKey="horas reportadas" label={{ fill: 'black', fontSize: 10 }} fill="#8884d8" >
-                            {data3.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                      ))}
+                                {data3.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
                             </Bar>
 
                             <Legend align='center' verticalAlign='top' />
@@ -302,20 +278,20 @@ export default function DashboardComponent() {
                         </div>
                     </div>
                     <div role='prichart' className='border   rounded-3xl  flex flex-wrap  justify-center items-center gap-0 py-5 px-10  bg-white  text-black'>
-                        
+
 
                         <div>
 
                             <PieChart width={300} height={280}>
                                 <Pie data={data02} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="#b4cc1b" >
-                                
+
                                     {data02.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                      ))}
+                                    ))}
 
-                                
-                                </Pie> 
-                                <Legend/>
+
+                                </Pie>
+                                <Legend />
                                 <Tooltip />
                             </PieChart>
                         </div>
