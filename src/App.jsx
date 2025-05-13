@@ -2,19 +2,14 @@ import React from "react";
 import Login from "./components/Login";
 import { Route, Routes } from "react-router";
 
-import HorasServicio from "./components/HorasServicio";
-
 import AuthLayout from "./components/layouts/AuthLayout";
 import DashboardComponent from "./components/DashboardComponent";
 
 import RegistroHorasStudent from "./components/RegistroHorasStudent";
 
-import Cookies from "js-cookie"; // Import js-cookie
-import { Navigate } from "react-router";
 import Users from "./components/Users";
 import User from "./components/User";
 import StudentsInfo from "./components/StudentsInfo";
-import ProfileStudents from "./components/ProfileStudents";
 import ActualizarUsuario from "./components/ActualizarUsuario";
 
 export default function App() {
